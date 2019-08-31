@@ -1,4 +1,5 @@
 import User from '../models/user';
+import bcrypt from 'bcrypt';
 
 async function createUser(
   firstName: string,
@@ -8,14 +9,25 @@ async function createUser(
   password: string,
   isAdmin?: string,
 ) {
+  const hash: string = await bcrypt.hash(password, 10);
   const user = new User({
     firstName,
     lastName,
     email,
     gender,
-    password,
+    password: hash,
     isAdmin,
   });
-  return await user.save();
+  const result = await user.save();
+  return {
+    isAdmin: result.isAdmin,
+    firstName: result.firstName,
+    lastName: result.lastName,
+    id: result.id,
+    createdAt: result.createdAt,
+    updatedAt: result.updatedAt,
+    email: result.email,
+    gender: result.gender,
+  };
 }
 export { createUser };
