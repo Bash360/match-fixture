@@ -25,6 +25,7 @@ describe('test for user controller', () => {
       gender: expect.any(String),
       createdAt: expect.any(Date),
       updatedAt: expect.any(Date),
+      token: expect.any(String),
     });
   });
   it('should return user details', async () => {
@@ -38,6 +39,7 @@ describe('test for user controller', () => {
       gender: expect.any(String),
       createdAt: expect.any(Date),
       updatedAt: expect.any(Date),
+      token: expect.any(String),
     });
   });
   it('should throw', async () => {
