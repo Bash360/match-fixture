@@ -19,10 +19,24 @@ process.env = JSON.parse(JSON.stringify(process.env));
 const app = require('../dist/app').default;
 const debug = require('debug')('nert:server');
 const http = require('http');
+const mongoose = require('mongoose');
+require('dotenv/config');
 
 /**
  * Get port from environment and store in Express.
  */
+let connection;
+console.log(process.env.NODE_ENV);
+switch (process.env.NODE_ENV) {
+  case 'production':
+    connection = process.env.MONGO_PROD;
+    break;
+  case 'development':
+    connection = process.env.MONGO_DEV;
+    break;
+  default:
+    throw new Error('no connection');
+}
 
 const port = normalizePort(process.env.PORT || '3005');
 app.set('port', port);
@@ -60,7 +74,14 @@ function normalizePort(val) {
 
   return false;
 }
-
+mongoose.connect(connection, {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useFindAndModify: false
+});
+mongoose.connection.on('connected', mongodbConnected);
+mongoose.connection.on('disconnected', mongodbDisconnected);
+mongoose.connection.on('error', mongodbError);
 /**
  * Event listener for HTTP server "error" event.
  */
@@ -95,4 +116,14 @@ function onListening() {
   const addr = server.address();
   const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
   debug('Listening on ' + bind);
+}
+function mongodbConnected() {
+  console.log('connected to mongodb successfully');
+}
+function mongodbDisconnected() {
+  console.log('disconnected from database');
+}
+function mongodbError(error) {
+  console.error('Mongodb Error', error);
+  process.exit(1);
 }
