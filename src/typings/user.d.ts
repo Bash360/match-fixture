@@ -10,5 +10,6 @@ interface Iuser extends mongoose.Document {
   isAdmin: boolean;
   createdAt: Date;
   updatedAt: Date | null;
+  generateToken(): string;
 }
 export default Iuser;
