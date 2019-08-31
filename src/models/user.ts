@@ -10,8 +10,9 @@ let UserSchema = new Schema(
     password: { type: String, required: true },
     gender: { type: String, enum: ['male', 'female'], required: true },
     isAdmin: { type: Boolean, default: false },
+    archived: { type: Boolean, default: false },
   },
-  { timestamps: true, id: false },
+  { timestamps: true },
 );
 UserSchema.pre('save', async function() {
   if (this.isNew) {
