@@ -1,7 +1,8 @@
 import { Schema, model } from 'mongoose';
 import Iuser from '../typings/user';
 import uuid from 'uuid/v4';
-const UserSchema = new Schema(
+import uniqueValidate from 'mongoose-unique-validator';
+let UserSchema = new Schema(
   {
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
@@ -16,5 +17,9 @@ UserSchema.pre('save', async function() {
   if (this.isNew) {
     this.id = uuid();
   }
+});
+
+UserSchema.plugin(uniqueValidate, {
+  message: 'Error, {VALUE} is already a registered account',
 });
 export default model<Iuser>('user', UserSchema);
