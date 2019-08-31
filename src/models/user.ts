@@ -19,7 +19,6 @@ UserSchema.pre('save', async function() {
     this.id = uuid();
   }
 });
-
 UserSchema.plugin(uniqueValidate, {
   message: 'Error, {VALUE} is already a registered account',
 });

@@ -42,7 +42,7 @@ async function createUser(
     gender: result.gender,
   };
 }
-async function loginUser(mail: string, passwrd: string) {
+async function loginUser(mail: string, passwrd: string): Promise<any> {
   const user = await User.findOne({ email: mail, archived: false });
   if (!user) throw new Error('email does not belong to a registered user');
   const {

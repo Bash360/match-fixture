@@ -40,4 +40,15 @@ describe('test for user controller', () => {
       updatedAt: expect.any(Date),
     });
   });
+  it('should throw', async () => {
+    await loginUser('bayphil@gmail.com', 'bashbash')
+      .then(data => {
+        console.log(data);
+      })
+      .catch(data => {
+        expect(data.message).toMatch(
+          'email does not belong to a registered user',
+        );
+      });
+  });
 });

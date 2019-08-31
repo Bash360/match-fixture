@@ -6,7 +6,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "compile:dev": "tsc -w",
+    "compile": "tsc -w",
     "postinstall": "tsc",
     "build": "scripts/build.sh",
     "start": "NODE_ENV=production node ./bin/www",
