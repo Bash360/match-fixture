@@ -1,9 +1,15 @@
 import mongoose from 'mongoose';
 require('dotenv').config();
+let connection: string;
+if (process.env.MONGO_DEV) {
+  connection = process.env.MONGO_DEV;
+} else {
+  process.exit(1);
+}
 
-export async function connectToDB() {
+async function connectToDB() {
   await mongoose
-    .connect(process.env.MONGO_DEV, {
+    .connect(connection, {
       useNewUrlParser: true,
       useCreateIndex: true,
       useFindAndModify: false,
@@ -14,8 +20,9 @@ export async function connectToDB() {
       process.exit(1);
     });
 }
-export async function disconnectDB() {
+async function disconnectFromDB() {
   await mongoose.connection.db.dropDatabase();
   mongoose.connection.close();
   console.log('connection closed');
 }
+export { connectToDB, disconnectFromDB };
