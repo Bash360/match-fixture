@@ -31,6 +31,7 @@ async function createUser(
     isAdmin,
   });
   const result = await user.save();
+  const token: string = user.generateToken();
   return {
     isAdmin: result.isAdmin,
     firstName: result.firstName,
@@ -40,6 +41,7 @@ async function createUser(
     updatedAt: result.updatedAt,
     email: result.email,
     gender: result.gender,
+    token,
   };
 }
 async function loginUser(mail: string, passwrd: string): Promise<any> {
