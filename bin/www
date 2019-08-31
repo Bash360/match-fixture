@@ -19,6 +19,7 @@ process.env = JSON.parse(JSON.stringify(process.env));
 const app = require('../dist/app').default;
 const debug = require('debug')('nert:server');
 const http = require('http');
+const mongoose = require('mongoose');
 
 /**
  * Get port from environment and store in Express.
