@@ -16,6 +16,17 @@ describe('test for user controller', () => {
       'male',
       'bashbash',
     );
-    expect(result).toHaveProperty('email');
+    expect(result).toMatchObject({
+      isAdmin: expect.any(Boolean),
+      id: expect.any(String),
+      firstName: expect.any(String),
+      lastName: expect.any(String),
+      email: expect.any(String),
+      gender: expect.any(String),
+      createdAt: expect.any(Date),
+      updatedAt: expect.any(Date),
+    });
+
+    console.log(result);
   });
 });
