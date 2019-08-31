@@ -9,8 +9,7 @@
     "postinstall": "tsc",
     "build": "scripts/build.sh",
     "start": "bin/www",
-    "test": "jest",
-    "client:start": "cd client; yarn start"
+    "test": "jest"
   },
   "dependencies": {
     "compression": "1.7.4",
