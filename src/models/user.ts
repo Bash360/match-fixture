@@ -1,7 +1,10 @@
 import { Schema, model } from 'mongoose';
 import Iuser from '../typings/user';
 import uuid from 'uuid/v4';
+import jwt from 'jsonwebtoken';
+require('dotenv/config');
 import uniqueValidate from 'mongoose-unique-validator';
+let secret: string;
 let UserSchema = new Schema(
   {
     firstName: { type: String, required: true },
@@ -19,6 +22,15 @@ UserSchema.pre('save', async function() {
     this.id = uuid();
   }
 });
+if (process.env.SECRET) {
+  secret = process.env.SECRET;
+} else {
+  process.exit(1);
+}
+UserSchema.methods.generateToken = function(): string {
+  const token: string = jwt.sign({ email: this.email, id: this.id }, secret);
+  return token;
+};
 UserSchema.plugin(uniqueValidate, {
   message: 'Error, {VALUE} is already a registered account',
 });
