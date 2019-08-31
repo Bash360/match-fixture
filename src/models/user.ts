@@ -10,7 +10,7 @@ const UserSchema = new Schema(
     gender: { type: String, enum: ['male', 'female'], required: true },
     isAdmin: { type: Boolean, default: false },
   },
-  { timestamps: true },
+  { timestamps: true, id: false },
 );
 UserSchema.pre('save', async function() {
   if (this.isNew) {
