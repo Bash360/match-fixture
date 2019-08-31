@@ -1,5 +1,6 @@
 import { Schema, model } from 'mongoose';
 import Iuser from '../typings/user';
+import uuid from 'uuid/v4';
 const UserSchema = new Schema(
   {
     firstName: { type: String, required: true },
@@ -13,7 +14,7 @@ const UserSchema = new Schema(
 );
 UserSchema.pre('save', async function() {
   if (this.isNew) {
-    this.id = 'bash'; //uuid
+    this.id = uuid();
   }
 });
 export default model<Iuser>('user', UserSchema);
