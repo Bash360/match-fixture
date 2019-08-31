@@ -45,7 +45,7 @@ async function createUser(
   };
 }
 async function loginUser(mail: string, passwrd: string): Promise<any> {
-  const user = await User.findOne({ email: mail, archived: false });
+  const user = await User.findOne({ email: mail });
   if (!user) throw new Error('email does not belong to a registered user');
   const {
     firstName,
@@ -69,6 +69,16 @@ async function loginUser(mail: string, passwrd: string): Promise<any> {
     isAdmin,
     createdAt,
     updatedAt,
+    token: user.generateToken(),
   };
 }
-export { createUser, loginUser };
+async function getUser(id: string) {
+  const user = await User.findOne({ id }).select({
+    __v: 0,
+    _id: 0,
+    password: 0,
+  });
+  if (!user) return null;
+  return user;
+}
+export { createUser, loginUser, getUser };

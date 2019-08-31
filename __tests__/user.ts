@@ -1,6 +1,6 @@
-import { createUser, loginUser } from '../src/controllers/user';
+import { createUser, loginUser, getUser } from '../src/controllers/user';
 import { connectToDB, disconnectFromDB } from '../test-setup/test-connection';
-
+let userId: string;
 describe('test for user controller', () => {
   beforeAll(async () => {
     await connectToDB();
@@ -16,6 +16,7 @@ describe('test for user controller', () => {
       'male',
       'bashbash',
     );
+    userId = result.id;
     expect(result).toMatchObject({
       isAdmin: expect.any(Boolean),
       id: expect.any(String),
@@ -52,5 +53,18 @@ describe('test for user controller', () => {
           'email does not belong to a registered user',
         );
       });
+  });
+  it('should return user details', async () => {
+    const result = await getUser(userId);
+    expect(result).toMatchObject({
+      isAdmin: expect.any(Boolean),
+      id: expect.any(String),
+      firstName: expect.any(String),
+      lastName: expect.any(String),
+      email: expect.any(String),
+      gender: expect.any(String),
+      createdAt: expect.any(Date),
+      updatedAt: expect.any(Date),
+    });
   });
 });
