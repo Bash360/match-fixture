@@ -20,11 +20,23 @@ const app = require('../dist/app').default;
 const debug = require('debug')('nert:server');
 const http = require('http');
 const mongoose = require('mongoose');
+require('dotenv/config');
 
 /**
  * Get port from environment and store in Express.
  */
 let connection;
+console.log(process.env.NODE_ENV);
+switch (process.env.NODE_ENV) {
+  case 'production':
+    connection = process.env.MONGO_PROD;
+    break;
+  case 'development':
+    connection = process.env.MONGO_DEV;
+    break;
+  default:
+    throw new Error('no connection');
+}
 
 const port = normalizePort(process.env.PORT || '3005');
 app.set('port', port);
