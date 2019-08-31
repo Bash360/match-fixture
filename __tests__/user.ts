@@ -67,4 +67,8 @@ describe('test for user controller', () => {
       updatedAt: expect.any(Date),
     });
   });
+  it('should return null', async () => {
+    const result = await getUser(userId + 12);
+    expect(result).toBeNull();
+  });
 });
