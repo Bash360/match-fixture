@@ -21,12 +21,13 @@ describe('test for team controller', () => {
     const teamDetails = await createTeam(
       adminId,
       'arsenal football club',
-      'AFC',
+      'ARS',
       'arsenal.jpg',
       'england',
-      'city',
-      new Date('1945-10-03'),
-      'emirates stadium',
+      'north london',
+      new Date('1886-10-07'),
+      '	Unai Emery',
+      '	Emirates Stadium',
       '8 england road blah blah blah',
       200000,
     );
