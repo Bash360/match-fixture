@@ -1,14 +1,14 @@
 import mongoose from 'mongoose';
 interface Iteam extends mongoose.Document {
-  id: String;
-  name: String;
-  code: String;
-  logo: String;
-  country: String;
+  id: string;
+  name: string;
+  code: string;
+  logo: string;
+  country: string;
   founded: Date;
-  stadiumName: String;
-  stadiumAddress: String;
-  city: String;
-  stadiumCapacity: Number;
+  stadiumName: string;
+  stadiumAddress: string;
+  city: string;
+  stadiumCapacity: number;
 }
 export default Iteam;
