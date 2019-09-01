@@ -1,4 +1,9 @@
-import { createTeam, removeTeam, getTeam } from '../src/controllers/team';
+import {
+  createTeam,
+  removeTeam,
+  getTeam,
+  updateTeam,
+} from '../src/controllers/team';
 import { connectToDB, disconnectFromDB } from '../test-setup/test-connection';
 import { createAdmin } from '../src/controllers/user';
 let adminId: string;
@@ -53,6 +58,13 @@ describe('test for team controller', () => {
       updatedAt: expect.any(Date),
     });
   });
+  it('should should return updated team', async () => {
+    const result = await updateTeam(adminId, teamId, {
+      headCoach: 'mark bashir',
+    });
+    expect(result.headCoach).toMatch('mark bashir');
+  });
+
   it('should remove team and return team successfully removed ', async () => {
     const result = await removeTeam(adminId, teamId);
 
