@@ -17,8 +17,9 @@ const fixtureSchema = new Schema(
       enum: ['pending', 'ongoing', 'completed'],
       default: 'pending',
     },
-    matchDate: { type: Date, required: true },
+    matchDate: { type: Date, required: true, minlength: Date.now() },
     archived: { type: Boolean, required: true },
+    fixtureUrl: { type: String, required: true },
   },
   { timestamps: true, id: false },
 );
