@@ -9,7 +9,7 @@ interface Iuser extends mongoose.Document {
   gender: string;
   isAdmin: boolean;
   createdAt: Date;
-  updatedAt: Date | null;
+  updatedAt: Date;
   generateToken(): string;
 }
 export default Iuser;

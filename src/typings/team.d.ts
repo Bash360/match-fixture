@@ -10,5 +10,7 @@ interface Iteam extends mongoose.Document {
   stadiumAddress: string;
   city: string;
   stadiumCapacity: number;
+  createdAt: Date;
+  updatedAt: Date
 }
 export default Iteam;

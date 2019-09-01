@@ -14,6 +14,7 @@ const teamSchema = new Schema(
     stadiumName: { type: String, required: true },
     stadiumAddress: { type: String, required: true },
     stadiumCapacity: { type: Number, required: true },
+    archived: { type: Boolean, default: false },
   },
   { timestamps: true, id: false },
 );
@@ -22,7 +23,25 @@ teamSchema.pre('save', async function() {
     this.id = uuid();
   }
 });
+teamSchema.methods.teamDetails = function() {
+  const teamDetail = {
+    id: this.id,
+    name: this.name,
+    teamCode: this.teamCode,
+    logo: this.logo,
+    country: this.country,
+    founded: this.founded,
+    stadiumName: this.stadiumName,
+    stadiumAddress: this.stadiumAddress,
+    city: this.city,
+    stadiumCapacity: this.stadiumCapacity,
+    createdAt: this.createdAt,
+    updatedAt: this.updatedAt,
+  };
+  return teamDetail;
+};
 teamSchema.plugin(uniqueValidate, {
-  message: 'Error can not have two teams with the same name',
+  message: 'Error can not have two teams with the same name {VALUE}',
+  type: '',
 });
 export default model<Iteam>('team', teamSchema);
