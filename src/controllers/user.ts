@@ -19,7 +19,6 @@ async function createUser(
   email: string,
   gender: string,
   password: string,
-  isAdmin?: string,
 ) {
   const hash: string = await bcrypt.hash(password, 10);
   const user = new User({
@@ -28,7 +27,36 @@ async function createUser(
     email,
     gender,
     password: hash,
-    isAdmin,
+  });
+  const result = await user.save();
+  const token: string = user.generateToken();
+  return {
+    isAdmin: result.isAdmin,
+    firstName: result.firstName,
+    lastName: result.lastName,
+    id: result.id,
+    createdAt: result.createdAt,
+    updatedAt: result.updatedAt,
+    email: result.email,
+    gender: result.gender,
+    token,
+  };
+}
+async function createAdmin(
+  firstName: string,
+  lastName: string,
+  email: string,
+  gender: string,
+  password: string,
+) {
+  const hash: string = await bcrypt.hash(password, 10);
+  const user = new User({
+    firstName,
+    lastName,
+    email,
+    gender,
+    isAdmin: true,
+    password: hash,
   });
   const result = await user.save();
   const token: string = user.generateToken();
@@ -81,4 +109,4 @@ async function getUser(id: string) {
   if (!user) return null;
   return user;
 }
-export { createUser, loginUser, getUser };
+export { createUser, loginUser, getUser, createAdmin };
