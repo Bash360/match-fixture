@@ -11,7 +11,7 @@
     "build": "scripts/build.sh",
     "start": "NODE_ENV=production node ./bin/www",
     "dev": "NODE_ENV=development nodemon ./bin/www",
-    "test": "jest --verbose"
+    "test": "jest --runInBand"
   },
   "dependencies": {
     "bcrypt": "^3.0.6",
