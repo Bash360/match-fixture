@@ -9,6 +9,7 @@ const teamSchema = new Schema(
     teamCode: { type: String, required: true },
     logo: { type: String, required: true },
     country: { type: String, required: true },
+    headCoach: { type: String, required: true },
     city: { type: String, required: true },
     founded: { type: String, required: true },
     stadiumName: { type: String, required: true },
@@ -27,6 +28,7 @@ teamSchema.methods.teamDetails = function() {
   const teamDetail = {
     id: this.id,
     name: this.name,
+    headCoach: this.headCoach,
     teamCode: this.teamCode,
     logo: this.logo,
     country: this.country,

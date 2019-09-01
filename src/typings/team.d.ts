@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 interface Iteam extends mongoose.Document {
   id: string;
   name: string;
+  headCoach: string;
   teamCode: string;
   logo: string;
   country: string;
