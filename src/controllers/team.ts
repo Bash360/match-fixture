@@ -7,13 +7,15 @@ async function createTeam(
   teamCode: string,
   logo: string,
   country: string,
-  city:string,
+  city: string,
   founded: Date,
   stadiumName: string,
   stadiumAddress: string,
   stadiumCapacity: Number,
 ): Promise<Iteam> {
-  let isAdmin = await User.findOne({ id: adminId,isAdmin:true }).select({ isAdmin: 1 });
+  let isAdmin = await User.findOne({ id: adminId, isAdmin: true }).select({
+    isAdmin: 1,
+  });
   if (!isAdmin) throw new Error('only admin can create teams');
   const team = new Team({
     name,
@@ -24,9 +26,9 @@ async function createTeam(
     founded,
     stadiumName,
     stadiumAddress,
-    stadiumCapacity
+    stadiumCapacity,
   });
-  const teamDetails = await team.save();
-  return teamDetails;
+  await team.save();
+  return team.teamDetails();
 }
 export { createTeam };

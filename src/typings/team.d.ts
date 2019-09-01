@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 interface Iteam extends mongoose.Document {
   id: string;
   name: string;
-  code: string;
+  teamCode: string;
   logo: string;
   country: string;
   founded: Date;
@@ -11,6 +11,8 @@ interface Iteam extends mongoose.Document {
   city: string;
   stadiumCapacity: number;
   createdAt: Date;
-  updatedAt: Date
+  updatedAt: Date;
+  archived: boolean | null;
+  teamDetails: any;
 }
 export default Iteam;
