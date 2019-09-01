@@ -11,7 +11,7 @@ const teamSchema = new Schema(
     country: { type: String, required: true },
     headCoach: { type: String, required: true },
     city: { type: String, required: true },
-    founded: { type: String, required: true },
+    founded: { type: Date, required: true },
     stadiumName: { type: String, required: true },
     stadiumAddress: { type: String, required: true },
     stadiumCapacity: { type: Number, required: true },

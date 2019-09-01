@@ -8,7 +8,7 @@ async function createTeam(
   logo: string,
   country: string,
   city: string,
-  founded: Date,
+  founded: string,
   headCoach: string,
   stadiumName: string,
   stadiumAddress: string,
@@ -18,13 +18,14 @@ async function createTeam(
     isAdmin: 1,
   });
   if (!isAdmin) throw new Error('only admin can create teams');
+  const foundingDate: Date = new Date(founded);
   const team = new Team({
     name,
     teamCode,
     logo,
     country,
     city,
-    founded,
+    founded: foundingDate,
     headCoach,
     stadiumName,
     stadiumAddress,
