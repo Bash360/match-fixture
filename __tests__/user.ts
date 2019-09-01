@@ -1,4 +1,9 @@
-import { createUser, loginUser, getUser } from '../src/controllers/user';
+import {
+  createUser,
+  createAdmin,
+  loginUser,
+  getUser,
+} from '../src/controllers/user';
 import { connectToDB, disconnectFromDB } from '../test-setup/test-connection';
 let userId: string;
 describe('test for user controller', () => {
@@ -70,5 +75,15 @@ describe('test for user controller', () => {
   it('should return null', async () => {
     const result = await getUser(userId + 12);
     expect(result).toBeNull();
+  });
+  it('should create Admin and return admin details', async () => {
+    const result = await createAdmin(
+      'gamaliel',
+      'eweke',
+      'gam360@gmail.com',
+      'male',
+      'iamgam',
+    );
+    expect(result.isAdmin).toBeTruthy();
   });
 });
