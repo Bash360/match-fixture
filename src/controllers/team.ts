@@ -33,4 +33,19 @@ async function createTeam(
   await team.save();
   return team.teamDetails();
 }
-export { createTeam };
+async function removeTeam(adminId: string, teamId: string) {
+  const admin = await User.findOne({ id: adminId }).select({ isAdmin: 1 });
+  if (!admin) throw new Error('only admin can create teams');
+  const team = await Team.findOneAndUpdate(
+    { id: teamId },
+    { $set: { archived: true } },
+  );
+  if (!team) throw new Error('invalid team ID');
+  return 'team successfully deleted';
+}
+async function getTeam(teamId: string) {
+  const team = await Team.findOne({ id: teamId, archived: false });
+  if (!team) throw new Error('invalid id for team');
+  return team.teamDetails();
+}
+export { createTeam, removeTeam, getTeam };

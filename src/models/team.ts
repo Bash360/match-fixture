@@ -25,7 +25,7 @@ teamSchema.pre('save', async function() {
   }
 });
 teamSchema.methods.teamDetails = function() {
-  const teamDetail = {
+  const teamDetails = {
     id: this.id,
     name: this.name,
     headCoach: this.headCoach,
@@ -40,7 +40,7 @@ teamSchema.methods.teamDetails = function() {
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,
   };
-  return teamDetail;
+  return teamDetails;
 };
 teamSchema.plugin(uniqueValidate, {
   message: 'Error can not have two teams with the same name {VALUE}',
