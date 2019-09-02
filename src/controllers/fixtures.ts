@@ -2,6 +2,7 @@ import Fixture from '../models/fixtures';
 import Ifixture from '../typings/fixtures';
 import User from '../models/user';
 import Team from '../models/team';
+import fixtures from '../models/fixtures';
 
 async function createFixture(
   adminId: string,
@@ -20,8 +21,8 @@ async function createFixture(
   const awayTeam = await Team.findOne({ name: awayTeamName });
   if (!awayTeam) throw new Error('invalid away team name');
   const _matchDate: Date = new Date(matchDate);
-  const homeTeamID: string = homeTeam.id;
-  const awayTeamID: string = awayTeam.id;
+  const homeTeamID: string = homeTeam._id;
+  const awayTeamID: string = awayTeam._id;
   const stadium: string = homeTeam.stadiumName;
   const fixture = new Fixture({
     homeTeamName,
@@ -32,9 +33,72 @@ async function createFixture(
     homeTeamID,
     awayTeamID,
     fixtureURL,
-  })
-    .populate('awayTeamID')
-    .populate('homeTeamID');
+  });
   return fixture.save();
 }
-export { createFixture };
+async function getFixture(fixtureId: string): Promise<Ifixture | null> {
+  const fixture = Fixture.findOne({ id: fixtureId, archived: false })
+    .select({ _id: 0, __v: 0 })
+    .populate({
+      path: 'homeTeamID',
+      match: { archived: false },
+      select: '-__v -_id -archived',
+    })
+    .populate({
+      path: 'awayTeamID',
+      match: { archived: false },
+      select: '-__v -_id -archived',
+    });
+  return fixture;
+}
+async function getAllFixtures(): Promise<Array<Ifixture> | null> {
+  const allFixtures = Fixture.find({ archived: false })
+    .select({ _id: 0, __v: 0 })
+    .populate({
+      path: 'homeTeamID',
+      match: { archived: false },
+      select: '-__v -_id -archived',
+    })
+    .populate({
+      path: 'awayTeamID',
+      match: { archived: false },
+      select: '-__v -_id -archived',
+    });
+  if (!fixtures.length) return null;
+  return allFixtures;
+}
+interface Iupdate {
+  goalsHomeTeam?: number;
+  goalsAwayTeam?: number;
+}
+async function updateFixture(
+  adminId: string,
+  fixtureId: string,
+  updateDetails: Iupdate,
+): Promise<Ifixture> {
+  const admin = await User.findOne({ id: adminId }).select({ isAdmin: 1 });
+  if (!admin) throw new Error('only admin can update fixtures');
+  const fixture = await Fixture.findOne({
+    id: fixtureId,
+    archived: false,
+  }).select({ __v: 0, archived: 0 });
+  if (!fixture) throw new Error('invalid fixture ID');
+  if (fixture.status === 'completed') {
+    throw new Error('can not update match that are already completed');
+  }
+  const {
+    goalsHomeTeam = fixture.goalsHomeTeam,
+    goalsAwayTeam = fixture.goalsAwayTeam,
+  } = updateDetails;
+  const goalsByHomeTeam: number = goalsHomeTeam ? goalsHomeTeam : 0;
+  const goalsByAwayTeam: number = goalsAwayTeam ? goalsAwayTeam : 0;
+  const totalGoals: number = fixture.goals
+    ? fixture.goals
+    : goalsByHomeTeam + goalsByAwayTeam;
+  fixture.goalsAwayTeam = goalsByAwayTeam;
+  fixture.goalsHomeTeam = goalsByHomeTeam;
+  fixture.goals = totalGoals;
+  fixture.status = 'ongoing';
+  return fixture.save();
+}
+export { createFixture, getFixture, getAllFixtures, updateFixture };

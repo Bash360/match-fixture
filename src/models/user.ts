@@ -40,7 +40,7 @@ if (process.env.SECRET) {
   process.exit(1);
 }
 UserSchema.methods.generateToken = function(): string {
-  const token: string = jwt.sign({}, secret);
+  const token: string = jwt.sign({ isAdmin: this.isAdmin }, secret);
   return token;
 };
 UserSchema.plugin(uniqueValidate, {
