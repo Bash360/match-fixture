@@ -44,7 +44,6 @@ UserSchema.methods.generateToken = function(): string {
   return token;
 };
 UserSchema.plugin(uniqueValidate, {
-  path: 'email',
   message: 'Error, {VALUE} is already a registered account',
 });
 export default model<Iuser>('user', UserSchema);
