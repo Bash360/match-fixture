@@ -81,11 +81,22 @@ async function updateFixture(
   const fixture = await Fixture.findOne({
     id: fixtureId,
     archived: false,
-  }).select({ __v: 0, archived: 0 });
+  })
+    .select({ __v: 0, archived: 0 })
+    .populate({
+      path: 'homeTeamID',
+      match: { archived: false },
+      select: '-__v -_id -archived',
+    })
+    .populate({
+      path: 'awayTeamID',
+      match: { archived: false },
+      select: '-__v -_id -archived',
+    });
   if (!fixture) throw new Error('invalid fixture ID');
-  if (fixture.status === 'completed' || 'cancelled') {
+  if (fixture.status === 'completed' || fixture.status === 'cancelled') {
     throw new Error(
-      'can not update match that are already completed or cancelled',
+      'can not update matches that are already completed or cancelled',
     );
   }
   const {
@@ -103,4 +114,27 @@ async function updateFixture(
   fixture.status = 'ongoing';
   return fixture.save();
 }
-export { createFixture, getFixture, getAllFixtures, updateFixture };
+async function endGame(adminId: string, fixtureId: string): Promise<Ifixture> {
+  const admin = await User.findOne({ id: adminId }).select({ isAdmin: 1 });
+  if (!admin) throw new Error('only admins are allowed to end games');
+  const fixture = await Fixture.findOne({ id: fixtureId })
+    .select({ __v: 0 })
+    .populate({
+      path: 'homeTeamID',
+      match: { archived: false },
+      select: '-__v -_id -archived',
+    })
+    .populate({
+      path: 'awayTeamID',
+      match: { archived: false },
+      select: '-__v -_id -archived',
+    });
+  if (!fixture) throw new Error('invalid fixture Id');
+  if (fixture.status === 'completed' || fixture.status === 'cancelled') {
+    throw new Error('cannot end an already concluded match');
+  }
+  if (fixture.status === 'pending') fixture.status = 'cancelled';
+  if (fixture.status === 'ongoing') fixture.status = 'completed';
+  return fixture.save();
+}
+export { createFixture, getFixture, getAllFixtures, updateFixture, endGame };
