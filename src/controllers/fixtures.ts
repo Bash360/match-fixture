@@ -83,8 +83,10 @@ async function updateFixture(
     archived: false,
   }).select({ __v: 0, archived: 0 });
   if (!fixture) throw new Error('invalid fixture ID');
-  if (fixture.status === 'completed') {
-    throw new Error('can not update match that are already completed');
+  if (fixture.status === 'completed' || 'cancelled') {
+    throw new Error(
+      'can not update match that are already completed or cancelled',
+    );
   }
   const {
     goalsHomeTeam = fixture.goalsHomeTeam,

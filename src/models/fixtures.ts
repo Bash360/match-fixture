@@ -24,7 +24,7 @@ const fixtureSchema = new Schema(
     referee: { type: String, required: true, trim: true, lowercase: true },
     status: {
       type: String,
-      enum: ['pending', 'ongoing', 'completed'],
+      enum: ['pending', 'cancelled', 'ongoing', 'completed'],
       default: 'pending',
       trim: true,
       lowercase: true,
