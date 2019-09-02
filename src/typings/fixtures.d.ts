@@ -14,5 +14,6 @@ interface Ifixtures extends mongoose.Document {
   status: string | null;
   matchDate: Date;
   archived: boolean;
+  fixtureURL?: string;
 }
 export default Ifixtures;
