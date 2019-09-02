@@ -1,4 +1,6 @@
 import joi from '@hapi/joi';
+import validate from './validate';
+import express from 'express';
 const userSchema = {
   firstName: joi
     .string()
@@ -32,3 +34,13 @@ const userSchema = {
       .required(),
   }),
 };
+function validateUser(
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction,
+) {
+  const errors = validate(req.body, userSchema);
+  if (!errors) return next();
+  return res.json(errors).status(4000);
+}
+export default validateUser;

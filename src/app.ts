@@ -3,12 +3,13 @@ import express from 'express';
 import cors from 'cors';
 import compression from 'compression';
 import morgan from 'morgan';
+import userRouter from './routes/user';
 
 const app = express();
 
 // Setup Request logging
 const logFormat = process.env.NODE_ENV === 'production' ? 'combined' : 'dev';
-
+app.use('api/v1', userRouter);
 app.use(
   morgan(logFormat, {
     skip: function(_req, res) {
