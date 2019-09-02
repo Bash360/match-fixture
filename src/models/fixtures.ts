@@ -29,7 +29,7 @@ const fixtureSchema = new Schema(
       trim: true,
       lowercase: true,
     },
-    matchDate: { type: Date, required: true },
+    matchDate: { type: Date, required: true, min: Date.now() },
     archived: { type: Boolean, required: false, default: false },
     fixtureURL: { type: String, lowercase: true },
   },

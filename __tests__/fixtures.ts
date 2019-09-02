@@ -61,7 +61,7 @@ describe('test for team controller', () => {
       homeTeam,
       awayTeam,
       'mike dean',
-      '12-9-2019',
+      '12-9-20120',
     );
     fixtureId = result.id;
     expect(result).toHaveProperty('homeTeamID');
