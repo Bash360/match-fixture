@@ -8,11 +8,23 @@ let secret: string;
 let UserSchema = new Schema(
   {
     id: String,
-    firstName: { type: String, required: true },
-    lastName: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    gender: { type: String, enum: ['male', 'female'], required: true },
+    firstName: { type: String, required: true, trim: true, lowercase: true },
+    lastName: { type: String, required: true, trim: true, lowercase: true },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+      lowercase: true,
+    },
+    password: { type: String, required: true, trim: true },
+    gender: {
+      type: String,
+      enum: ['male', 'female'],
+      required: true,
+      trim: true,
+      lowercase: true,
+    },
     isAdmin: { type: Boolean, default: false },
   },
   { timestamps: true, id: false },

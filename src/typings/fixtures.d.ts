@@ -4,6 +4,8 @@ interface Ifixtures extends mongoose.Document {
   leagueName: string;
   homeTeamId: string;
   awayTeamId: string;
+  homeTeamName: string;
+  awayTeamName: string;
   goalsHomeTeam: number | null;
   goalsAwayTeam: number | null;
   stadium: string;
