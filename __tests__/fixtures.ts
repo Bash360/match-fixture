@@ -1,10 +1,16 @@
 import { connectToDB, disconnectFromDB } from '../test-setup/test-connection';
 import { createAdmin } from '../src/controllers/user';
 import { createTeam } from '../src/controllers/team';
-import { createFixture } from '../src/controllers/fixtures';
+import {
+  createFixture,
+  getFixture,
+  getAllFixtures,
+  updateFixture,
+} from '../src/controllers/fixtures';
 let adminId: string;
 let homeTeam: string;
 let awayTeam: string;
+let fixtureId: string;
 describe('test for team controller', () => {
   beforeAll(async () => {
     await connectToDB();
@@ -56,6 +62,23 @@ describe('test for team controller', () => {
       'mike dean',
       '12-9-2019',
     );
+    fixtureId = result.id;
     expect(result).toHaveProperty('homeTeamID');
+  });
+  it('should return fixture ', async () => {
+    const result = await getFixture(fixtureId);
+    expect(result).toHaveProperty('leagueName');
+  });
+  it('should return all fixtures', async () => {
+    const result = await getAllFixtures();
+    expect(result).toHaveLength(1);
+  });
+  it('should update fixture and return new fixture details', async () => {
+    const result = await updateFixture(adminId, fixtureId, {
+      goalsAwayTeam: 0,
+      goalsHomeTeam: 0,
+    });
+    expect(result.goalsAwayTeam).toBe(0);
+    expect(result.goalsHomeTeam).toBe(0);
   });
 });
