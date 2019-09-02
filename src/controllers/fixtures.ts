@@ -7,7 +7,6 @@ async function createFixture(
   adminId: string,
   homeTeamName: string,
   awayTeamName: string,
-  stadium: string,
   referee: string,
   matchDate: string,
   fixtureURL?: string,
@@ -21,18 +20,21 @@ async function createFixture(
   const awayTeam = await Team.findOne({ name: awayTeamName });
   if (!awayTeam) throw new Error('invalid away team name');
   const _matchDate: Date = new Date(matchDate);
-  const homeTeamId: string = homeTeam.id;
-  const awayTeamId: string = awayTeam.id;
+  const homeTeamID: string = homeTeam.id;
+  const awayTeamID: string = awayTeam.id;
+  const stadium: string = homeTeam.stadiumName;
   const fixture = new Fixture({
     homeTeamName,
     awayTeamName,
     stadium,
     referee,
     matchDate: _matchDate,
-    homeTeamId,
-    awayTeamId,
+    homeTeamID,
+    awayTeamID,
     fixtureURL,
-  });
-  return await fixture.save();
+  })
+    .populate('awayTeamID')
+    .populate('homeTeamID');
+  return fixture.save();
 }
 export { createFixture };
