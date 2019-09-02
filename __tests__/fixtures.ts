@@ -6,6 +6,7 @@ import {
   getFixture,
   getAllFixtures,
   updateFixture,
+  endGame,
 } from '../src/controllers/fixtures';
 let adminId: string;
 let homeTeam: string;
@@ -80,5 +81,9 @@ describe('test for team controller', () => {
     });
     expect(result.goalsAwayTeam).toBe(0);
     expect(result.goalsHomeTeam).toBe(0);
+  });
+  it('should end game and return fixture details', async () => {
+    const result = await endGame(adminId, fixtureId);
+    expect(result.status).toMatch('completed');
   });
 });
