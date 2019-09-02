@@ -31,10 +31,10 @@ describe('test for team controller', () => {
       'arsenal.jpg',
       'england',
       'north london',
-      '1886-10-07',
+      '10-07-1886',
       'Unai Emery',
       'Emirates Stadium',
-      '8 england road blah blah blah',
+      ' Holloway, London',
       200000,
     );
     teamId = teamDetails.id;
