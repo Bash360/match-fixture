@@ -14,6 +14,6 @@ interface Iteam extends mongoose.Document {
   createdAt: Date;
   updatedAt: Date;
   archived: boolean | null;
-  teamDetails: any;
+  teamDetails(): any;
 }
 export default Iteam;

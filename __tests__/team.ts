@@ -1,4 +1,9 @@
-import { createTeam, removeTeam, getTeam } from '../src/controllers/team';
+import {
+  createTeam,
+  removeTeam,
+  getTeam,
+  updateTeam,
+} from '../src/controllers/team';
 import { connectToDB, disconnectFromDB } from '../test-setup/test-connection';
 import { createAdmin } from '../src/controllers/user';
 let adminId: string;
@@ -26,10 +31,10 @@ describe('test for team controller', () => {
       'arsenal.jpg',
       'england',
       'north london',
-      new Date('1886-10-07'),
+      '10-07-1886',
       'Unai Emery',
       'Emirates Stadium',
-      '8 england road blah blah blah',
+      ' Holloway, London',
       200000,
     );
     teamId = teamDetails.id;
@@ -44,7 +49,7 @@ describe('test for team controller', () => {
       teamCode: expect.any(String),
       logo: expect.any(String),
       country: expect.any(String),
-      founded: expect.any(String),
+      founded: expect.any(Date),
       stadiumName: expect.any(String),
       stadiumAddress: expect.any(String),
       city: expect.any(String),
@@ -53,6 +58,13 @@ describe('test for team controller', () => {
       updatedAt: expect.any(Date),
     });
   });
+  it('should should return updated team', async () => {
+    const result = await updateTeam(adminId, teamId, {
+      headCoach: 'mark bashir',
+    });
+    expect(result.headCoach).toMatch('mark bashir');
+  });
+
   it('should remove team and return team successfully removed ', async () => {
     const result = await removeTeam(adminId, teamId);
 
