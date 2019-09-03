@@ -1,6 +1,6 @@
 import express from 'express';
-import { validateUser } from '../middleware/validation/user';
-import { createAdmin } from '../controllers/user';
+import { validateUser, validateLogin } from '../middleware/validation/user';
+import { createAdmin, loginUser } from '../controllers/user';
 const adminRouter = express.Router();
 adminRouter.post(
   '/signupadmin',
@@ -16,7 +16,23 @@ adminRouter.post(
         password,
       );
       return res
-        .header('x-auth-token', adminDetails.token)
+        .header('x-auth-admin', adminDetails.token)
+        .status(200)
+        .json(adminDetails);
+    } catch (error) {
+      return res.status(400).json({ message: error.message });
+    }
+  },
+);
+adminRouter.post(
+  '/loginadmin',
+  validateLogin,
+  async (req: express.Request, res: express.Response) => {
+    try {
+      const { email, password } = req.body;
+      const adminDetails = await loginUser(email, password);
+      return res
+        .header('x-auth-admin', adminDetails.token)
         .status(200)
         .json(adminDetails);
     } catch (error) {
