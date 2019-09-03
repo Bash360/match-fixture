@@ -6,6 +6,7 @@ import compression from 'compression';
 import logger from 'morgan';
 import indexRouter from './routes/index';
 import userRouter from './routes/user';
+import adminRouter from './routes/admin';
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use('/', indexRouter);
 app.use('/api/v1', userRouter);
+app.use('/api/v1', adminRouter);
 // catch 404 and forward to error handler
 app.use(function(
   _req: express.Request,
