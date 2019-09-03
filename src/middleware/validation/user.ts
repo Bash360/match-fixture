@@ -15,9 +15,9 @@ const userSchema = {
     .required(),
   email: joi
     .string()
+    .email()
     .trim()
     .lowercase()
-    .email()
     .required(),
   password: joi
     .string()
