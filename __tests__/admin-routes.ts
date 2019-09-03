@@ -27,6 +27,6 @@ describe('admin route test', () => {
       .send({ email: 'veronicabashir@gmail.com', password: 'bashbash' });
     expect(status).toBe(200);
     expect(body).toHaveProperty('lastName');
-    expect(header).toHaveProperty('x-auth-admin');
+    expect(header['authorization']).not.toBeNull();
   });
 });
