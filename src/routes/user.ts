@@ -1,6 +1,6 @@
 import express from 'express';
-import validateUser from '../middleware/validation/user';
-import { createUser } from '../controllers/user';
+import { validateUser, validateLogin } from '../middleware/validation/user';
+import { createUser, loginUser } from '../controllers/user';
 
 const userRouter = express.Router();
 
@@ -22,7 +22,20 @@ userRouter.post(
         .status(200)
         .json(userDetails);
     } catch (error) {
-      return res.status(400).json(error);
+      return res.status(400).json({ message: error.message });
+    }
+  },
+);
+userRouter.post(
+  '/login',
+  validateLogin,
+  async (req: express.Request, res: express.Response) => {
+    try {
+      const { email, password } = req.body;
+      const userDetails = await loginUser(email, password);
+      return res.status(200).json(userDetails);
+    } catch (error) {
+      return res.status(400).json({ message: error.message });
     }
   },
 );
