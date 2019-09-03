@@ -32,6 +32,20 @@ const userSchema = {
     .lowercase()
     .required(),
 };
+const loginSchema = {
+  email: joi
+    .string()
+    .email()
+    .trim()
+    .lowercase()
+    .required(),
+  password: joi
+    .string()
+    .trim()
+    .lowercase()
+    .required()
+    .min(4),
+};
 function validateUser(
   req: express.Request,
   res: express.Response,
@@ -40,8 +54,20 @@ function validateUser(
   const errors: any = validate(req.body, userSchema);
 
   if (errors) {
-    return res.status(400).json({ errors: errors });
+    return res.status(400).json({ errors });
   }
   return next();
 }
-export default validateUser;
+function validateLogin(
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction,
+) {
+  const errors: any = validate(req.body, loginSchema);
+
+  if (errors) {
+    return res.status(400).json({ errors });
+  }
+  return next();
+}
+export { validateUser, validateLogin };
