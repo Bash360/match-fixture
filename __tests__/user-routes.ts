@@ -27,6 +27,6 @@ describe('test for user route', () => {
       .send({ email: 'stephenchidera@gmail.com', password: 'bashbash' });
     expect(status).toBe(200);
     expect(body).toHaveProperty('firstName');
-    expect(header).toHaveProperty('x-auth-token');
+    expect(header['authorization']).not.toBeNull();
   });
 });
