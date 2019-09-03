@@ -18,7 +18,7 @@ userRouter.post(
         password,
       );
       return res
-        .header('x-auth-token', userDetails.token)
+        .header('authorization', userDetails.token)
         .status(200)
         .json(userDetails);
     } catch (error) {
@@ -34,7 +34,7 @@ userRouter.post(
       const { email, password } = req.body;
       const userDetails = await loginUser(email, password);
       return res
-        .header('x-auth-token', userDetails.token)
+        .header('authorization', userDetails.token)
         .status(200)
         .json(userDetails);
     } catch (error) {

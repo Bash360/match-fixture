@@ -37,10 +37,14 @@ UserSchema.pre('save', async function() {
 if (process.env.SECRET) {
   secret = process.env.SECRET;
 } else {
+  console.log('environment variable secret not set');
   process.exit(1);
 }
 UserSchema.methods.generateToken = function(): string {
-  const token: string = jwt.sign({ isAdmin: this.isAdmin }, secret);
+  const token: string = jwt.sign(
+    { isAdmin: this.isAdmin, id: this.id },
+    secret,
+  );
   return token;
 };
 UserSchema.plugin(uniqueValidate, {
