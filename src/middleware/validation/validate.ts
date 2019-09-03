@@ -1,12 +1,10 @@
 import joi from '@hapi/joi';
-const validate = (reqBody: any, schema: any) => {
-  let { error } = joi.validate(reqBody, schema, { abortEarly: false });
-  if (error) {
-    let errors = error.details.reduce((totalErrors, error) => {
-      return `${totalErrors} ${error.message.replace(/\"/g, '')} `;
-    }, ' ');
-    return errors;
-  }
-  return false;
+const validate = (body: any, schema: any): any => {
+  let { error } = joi.validate(body, schema, { abortEarly: false });
+  if (!error) return false;
+  let errors = error.details.reduce((totalErrors: string, error: any) => {
+    return `${totalErrors} ${error.message.replace(/\"/g, '')} `;
+  }, ' ');
+  return errors;
 };
 export default validate;

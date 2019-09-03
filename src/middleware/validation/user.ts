@@ -25,22 +25,23 @@ const userSchema = {
     .lowercase()
     .required()
     .min(4),
-  gender: joi.object().keys({
-    type: joi
-      .string()
-      .valid('male', 'female')
-      .trim()
-      .lowercase()
-      .required(),
-  }),
+  gender: joi
+    .string()
+    .valid('male', 'female')
+    .trim()
+    .lowercase()
+    .required(),
 };
 function validateUser(
   req: express.Request,
   res: express.Response,
   next: express.NextFunction,
 ) {
-  const errors = validate(req.body, userSchema);
-  if (!errors) return next();
-  return res.json(errors).status(4000);
+  const errors: any = validate(req.body, userSchema);
+
+  if (errors) {
+    return res.status(400).json({ errors: errors });
+  }
+  return next();
 }
 export default validateUser;
