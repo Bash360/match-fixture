@@ -33,7 +33,10 @@ userRouter.post(
     try {
       const { email, password } = req.body;
       const userDetails = await loginUser(email, password);
-      return res.status(200).json(userDetails);
+      return res
+        .header('x-auth-token', userDetails.token)
+        .status(200)
+        .json(userDetails);
     } catch (error) {
       return res.status(400).json({ message: error.message });
     }
