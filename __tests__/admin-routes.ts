@@ -21,4 +21,12 @@ describe('admin route test', () => {
     expect(status).toBe(200);
     expect(body.isAdmin).toBeTruthy();
   });
+  it('should login admin and return admin details', async () => {
+    const { body, status, header } = await request(app)
+      .post('/api/v1/loginadmin')
+      .send({ email: 'veronicabashir@gmail.com', password: 'bashbash' });
+    expect(status).toBe(200);
+    expect(body).toHaveProperty('lastName');
+    expect(header).toHaveProperty('x-auth-admin');
+  });
 });
