@@ -89,7 +89,8 @@ function validateUpdate(
   res: express.Response,
   next: express.NextFunction,
 ) {
-  if (!Object.keys(req.body).length) return res.status(400).json({});
+  if (!Object.keys(req.body).length)
+    return res.status(400).json('must update one field at least');
   let errors = validate(req.body, updateSchema);
   if (errors) {
     return res.status(400).json({ errors });
