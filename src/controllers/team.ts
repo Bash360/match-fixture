@@ -79,7 +79,7 @@ async function updateTeam(
   team.stadiumName = stadiumName;
   team.stadiumAddress = stadiumAddress;
   team.stadiumCapacity = stadiumCapacity;
-  team.save();
-  return team.teamDetails();
+  await team.save();
+  return await team.teamDetails();
 }
 export { createTeam, removeTeam, getTeam, updateTeam };

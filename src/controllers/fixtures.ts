@@ -34,10 +34,10 @@ async function createFixture(
     awayTeamID,
     fixtureURL,
   });
-  return fixture.save();
+  return await fixture.save();
 }
 async function getFixture(fixtureId: string): Promise<Ifixture | null> {
-  const fixture = Fixture.findOne({ id: fixtureId, archived: false })
+  const fixture = await Fixture.findOne({ id: fixtureId, archived: false })
     .select({ _id: 0, __v: 0 })
     .populate({
       path: 'homeTeamID',
@@ -52,7 +52,7 @@ async function getFixture(fixtureId: string): Promise<Ifixture | null> {
   return fixture;
 }
 async function getAllFixtures(): Promise<Array<Ifixture> | null> {
-  const allFixtures = Fixture.find({ archived: false })
+  const allFixtures = await Fixture.find({ archived: false })
     .select({ _id: 0, __v: 0 })
     .populate({
       path: 'homeTeamID',
@@ -112,7 +112,7 @@ async function updateFixture(
   fixture.goalsHomeTeam = goalsByHomeTeam;
   fixture.goals = totalGoals;
   fixture.status = 'ongoing';
-  return fixture.save();
+  return await fixture.save();
 }
 async function endGame(adminId: string, fixtureId: string): Promise<Ifixture> {
   const admin = await User.findOne({ id: adminId }).select({ isAdmin: 1 });
@@ -135,6 +135,6 @@ async function endGame(adminId: string, fixtureId: string): Promise<Ifixture> {
   }
   if (fixture.status === 'pending') fixture.status = 'cancelled';
   if (fixture.status === 'ongoing') fixture.status = 'completed';
-  return fixture.save();
+  return await fixture.save();
 }
 export { createFixture, getFixture, getAllFixtures, updateFixture, endGame };
