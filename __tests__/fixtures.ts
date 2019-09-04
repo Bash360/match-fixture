@@ -62,6 +62,7 @@ describe('test for team controller', () => {
       awayTeam,
       'mike dean',
       '12-9-20120',
+      'fixture/gdhsdhsdhshdhs',
     );
     fixtureId = result.id;
     expect(result).toHaveProperty('homeTeamID');
