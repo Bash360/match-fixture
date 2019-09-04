@@ -13,12 +13,14 @@ function adminAuth(
   res: express.Response,
   next: express.NextFunction,
 ) {
-  const token = req.header('authorization');
-  if (!token) return res.status(401).json('Acess denied no token provided');
+  const token: any = req.header('authorization');
+  let bearerToken = token.split(' ')[1];
+
+  if (!bearerToken)
+    return res.status(401).json('Acess denied no token provided');
   try {
-    const bearerHeader = token.split(' ');
-    const bearerToken = bearerHeader[1];
     const decoded: any = jwt.verify(bearerToken, secret);
+    console.log(decoded);
 
     if (decoded.isAdmin) {
       res.locals.admin = decoded;
@@ -27,6 +29,7 @@ function adminAuth(
       return res.status(403).json('only admin allowed');
     }
   } catch (error) {
+    console.log(error);
     return res.status(400).json('invalid token');
   }
 }
