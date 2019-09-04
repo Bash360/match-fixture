@@ -4,7 +4,6 @@ import path from 'path';
 import cors from 'cors';
 import compression from 'compression';
 import logger from 'morgan';
-import indexRouter from './routes/index';
 import userRouter from './routes/user';
 import adminRouter from './routes/admin';
 import teamRouter from './routes/team';
