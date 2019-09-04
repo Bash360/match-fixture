@@ -5,7 +5,7 @@ import { createUser, loginUser } from '../controllers/user';
 const userRouter = express.Router();
 
 userRouter.post(
-  '/signupuser',
+  '/user/signup',
   validateUser,
   async (req: express.Request, res: express.Response) => {
     try {
@@ -27,7 +27,7 @@ userRouter.post(
   },
 );
 userRouter.post(
-  '/login',
+  '/user/login',
   validateLogin,
   async (req: express.Request, res: express.Response) => {
     try {

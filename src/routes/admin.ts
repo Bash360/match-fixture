@@ -4,7 +4,7 @@ import { createAdmin, loginUser } from '../controllers/user';
 
 const adminRouter = express.Router();
 adminRouter.post(
-  '/signupadmin',
+  '/admin/signup',
   validateUser,
   async (req: express.Request, res: express.Response) => {
     try {
@@ -26,7 +26,7 @@ adminRouter.post(
   },
 );
 adminRouter.post(
-  '/loginadmin',
+  '/admin/admin',
   validateLogin,
   async (req: express.Request, res: express.Response) => {
     try {

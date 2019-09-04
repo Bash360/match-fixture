@@ -49,33 +49,52 @@ const teamSchema = {
     .trim(),
   stadiumCapacity: joi.number().required(),
 };
-const getTeamSchema = {
-  id: joi
+const updateSchema = {
+  headCoach: joi
     .string()
-    .lowercase()
-    .required()
-    .trim(),
+    .trim()
+    .lowercase(),
+  logo: joi
+    .string()
+    .trim()
+    .lowercase(),
+  stadiumName: joi
+    .string()
+    .trim()
+    .lowercase(),
+  stadiumAddress: joi
+    .string()
+    .trim()
+    .lowercase(),
+  city: joi
+    .string()
+    .trim()
+    .lowercase(),
+  stadiumCapacity: joi.number(),
 };
 function validateTeam(
   req: express.Request,
   res: express.Response,
   next: express.NextFunction,
 ) {
+  if (req.body === {}) return res.status(400).json('pay load cannot be empty');
   const errors = validate(req.body, teamSchema);
   if (errors) {
     return res.status(400).json({ errors });
   }
   return next();
 }
-function getTeamValidation(
+function validateUpdate(
   req: express.Request,
   res: express.Response,
   next: express.NextFunction,
 ) {
-  const error = validate(req.params, getTeamSchema);
-  if (error) {
-    return res.status(400).json({ error });
+  if (!Object.keys(req.body).length) return res.status(400).json({});
+  let errors = validate(req.body, updateSchema);
+  if (errors) {
+    return res.status(400).json({ errors });
   }
   return next();
 }
-export { validateTeam, getTeamValidation };
+
+export { validateTeam, validateUpdate };

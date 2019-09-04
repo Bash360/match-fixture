@@ -7,7 +7,7 @@ describe('test for team routes', () => {
   beforeAll(async () => {
     await connectToDB();
     const { body } = await request(app)
-      .post('/api/v1/signupadmin')
+      .post('/api/v1/admin/signup')
       .send({
         firstName: 'veronica',
         lastName: 'bashir',
@@ -22,7 +22,7 @@ describe('test for team routes', () => {
   });
   it('should create a team and return team details', async () => {
     const { body, status } = await request(app)
-      .post('/api/v1/addteam')
+      .post('/api/v1/team/add')
       .set({ authorization: `bearer ${token}` })
       .send({
         name: 'everton',
@@ -46,5 +46,13 @@ describe('test for team routes', () => {
       .set({ authorization: `bearer ${token}` });
     expect(status).toBe(200);
     expect(body).toHaveProperty('name');
+  });
+  it('should return update team details ', async () => {
+    const { body, status } = await request(app)
+      .put(`/api/v1/team/update/${teamId}`)
+      .set({ authorization: `bearer ${token}` })
+      .send({ stadiumName: 'new london' });
+    expect(status).toBe(200);
+    expect(body.stadiumName).toMatch('new london');
   });
 });
