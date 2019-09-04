@@ -55,4 +55,11 @@ describe('test for team routes', () => {
     expect(status).toBe(200);
     expect(body.stadiumName).toMatch('new london');
   });
+  it('should remove a team successfully and return team successfully deleted ', async () => {
+    const { body, status } = await request(app)
+      .delete(`/api/v1/team/delete/${teamId}`)
+      .set({ authorization: `bearer ${token}` });
+    expect(status).toBe(200);
+    expect(body).toMatchObject({ message: 'team successfully deleted' });
+  });
 });
