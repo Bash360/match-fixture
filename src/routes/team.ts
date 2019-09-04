@@ -1,7 +1,12 @@
 import express from 'express';
 import adminAuth from '../middleware/auth/admin-auth';
 import { validateTeam, validateUpdate } from '../middleware/validation/team';
-import { createTeam, getTeam, updateTeam } from '../controllers/team';
+import {
+  createTeam,
+  getTeam,
+  updateTeam,
+  removeTeam,
+} from '../controllers/team';
 import userAuth from '../middleware/auth/user-auth';
 const teamRouter = express.Router();
 
@@ -70,27 +75,17 @@ teamRouter.put(
     }
   },
 );
-// headCoach: joi
-//     .string()
-//     .trim()
-//     .lowercase(),
-//   logo: joi
-//     .string()
-//     .trim()
-//     .lowercase(),
-//   stadiumName: joi
-//     .string()
-//     .trim()
-//     .lowercase(),
-//   stadiumAddress: joi
-//     .string()
-//     .trim()
-//     .lowercase(),
-//   city: joi
-//     .string()
-//     .trim()
-//     .lowercase(),
-//   stadiumCapacity: joi
-//     .number()
-
+teamRouter.delete(
+  '/team/delete/:id',
+  adminAuth,
+  async (req: express.Request, res: express.Response) => {
+    try {
+      const { id } = req.params;
+      const message = await removeTeam(res.locals.admin.id, id);
+      return res.status(200).json({ message });
+    } catch (error) {
+      return res.status(400).json({ message: error.message });
+    }
+  },
+);
 export default teamRouter;
