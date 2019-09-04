@@ -23,6 +23,10 @@ const fixtureSchema = {
     .lowercase()
     .required(),
 };
+const updateSchema = {
+  goalsHomeTeam: joi.number,
+  goalsAwayTeam: joi.number,
+};
 function validateFixture(
   req: express.Request,
   res: express.Response,
@@ -34,4 +38,18 @@ function validateFixture(
   }
   return next();
 }
-export { validateFixture };
+function validateUpdate(
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction,
+) {
+  if (!Object.keys(req.body).length) {
+    return res.status(400).json('must update one field at least');
+  }
+  const errors = validate(updateSchema, req.body);
+  if (errors) {
+    return res.status(400).json({ errors });
+  }
+  return next();
+}
+export { validateFixture, validateUpdate };
