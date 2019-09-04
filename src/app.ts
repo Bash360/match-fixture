@@ -6,7 +6,7 @@ import logger from 'morgan';
 import userRouter from './routes/user';
 import adminRouter from './routes/admin';
 import teamRouter from './routes/team';
-import { fixtureRouter } from './routes/fixture';
+import fixtureRouter from './routes/fixture';
 
 const app = express();
 

@@ -14,11 +14,10 @@ function userAuth(
   next: express.NextFunction,
 ) {
   const token: any = req.header('authorization');
-  let bearerToken = token.split(' ')[1];
+  if (!token) return res.status(401).json('Access denied no token provided');
 
-  if (!bearerToken)
-    return res.status(401).json('Access denied no token provided');
   try {
+    let bearerToken = token.split(' ')[1];
     const decoded: any = jwt.verify(bearerToken, secret);
 
     if (decoded) {
@@ -28,7 +27,6 @@ function userAuth(
       return res.status(403).json('only admin allowed');
     }
   } catch (error) {
-    console.log(error);
     return res.status(400).json('invalid token');
   }
 }

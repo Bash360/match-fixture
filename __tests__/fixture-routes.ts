@@ -4,7 +4,6 @@ import { connectToDB, disconnectFromDB } from '../test-setup/test-connection';
 let token: string;
 let homeTeamName: string;
 let awayTeamName: string;
-let fixtureURL: string;
 
 describe('test for fixture route', () => {
   beforeAll(async () => {

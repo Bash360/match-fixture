@@ -1,8 +1,12 @@
 import express from 'express';
-import { createFixture } from '../controllers/fixtures';
+import {
+  createFixture,
+  getFixture,
+  getAllFixtures,
+} from '../controllers/fixtures';
 import adminAuth from '../middleware/auth/admin-auth';
 import { validateFixture } from '../middleware/validation/fixture';
-
+import userAuth from '../middleware/auth/user-auth';
 const fixtureRouter = express.Router();
 
 fixtureRouter.post(
@@ -26,4 +30,30 @@ fixtureRouter.post(
     }
   },
 );
-export { fixtureRouter };
+fixtureRouter.get(
+  '/fixture/all',
+  userAuth,
+  async (_req: express.Request, res: express.Response) => {
+    try {
+      const allFixtures = await getAllFixtures();
+      return res.status(200).json(allFixtures);
+    } catch (error) {
+      return res.status(400).json({ message: error.message });
+    }
+  },
+);
+fixtureRouter.get(
+  '/fixture/:id',
+  userAuth,
+  async (req: express.Request, res: express.Response) => {
+    try {
+      const { id } = req.params;
+      const fixtureDetails = await getFixture(id);
+      return res.status(200).json(fixtureDetails);
+    } catch (error) {
+      return res.status(400).json({ message: error.message });
+    }
+  },
+);
+
+export default fixtureRouter;
