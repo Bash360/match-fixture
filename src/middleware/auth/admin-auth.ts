@@ -28,7 +28,6 @@ function adminAuth(
       return res.status(403).json('only admin allowed');
     }
   } catch (error) {
-    console.log(error);
     return res.status(400).json('invalid token');
   }
 }

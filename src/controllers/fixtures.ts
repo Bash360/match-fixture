@@ -10,7 +10,7 @@ async function createFixture(
   awayTeamName: string,
   referee: string,
   matchDate: string,
-  fixtureURL?: string,
+  fixtureURL: string,
 ): Promise<Ifixture> {
   const admin = await User.findOne({ id: adminId, isAdmin: true }).select({
     isAdmin: 1,

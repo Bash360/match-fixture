@@ -36,9 +36,10 @@ const fixtureSchema = new Schema(
   { timestamps: true, id: false },
 );
 
-fixtureSchema.pre('save', async function() {
+fixtureSchema.pre('save', async function(this: any) {
   if (this.isNew) {
     this.id = uuid();
+    this.fixtureURL += this.id;
   }
 });
 

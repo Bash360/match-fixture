@@ -51,6 +51,9 @@ function validateUser(
   res: express.Response,
   next: express.NextFunction,
 ) {
+  console.log(
+    `${req.protocol}://${req.hostname}:${req.app.settings.port}${req.originalUrl}`,
+  );
   const errors: any = validate(req.body, userSchema);
 
   if (errors) {
