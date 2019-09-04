@@ -8,7 +8,7 @@ if (process.env.SECRET) {
   console.log('environment variable secret not set');
   process.exit(1);
 }
-function adminAuth(
+function userAuth(
   req: express.Request,
   res: express.Response,
   next: express.NextFunction,
@@ -21,8 +21,8 @@ function adminAuth(
   try {
     const decoded: any = jwt.verify(bearerToken, secret);
 
-    if (decoded.isAdmin) {
-      res.locals.admin = decoded;
+    if (decoded) {
+      res.locals.details = decoded;
       return next();
     } else {
       return res.status(403).json('only admin allowed');
@@ -32,4 +32,4 @@ function adminAuth(
     return res.status(400).json('invalid token');
   }
 }
-export default adminAuth;
+export default userAuth;

@@ -49,6 +49,13 @@ const teamSchema = {
     .trim(),
   stadiumCapacity: joi.number().required(),
 };
+const getTeamSchema = {
+  id: joi
+    .string()
+    .lowercase()
+    .required()
+    .trim(),
+};
 function validateTeam(
   req: express.Request,
   res: express.Response,
@@ -60,4 +67,15 @@ function validateTeam(
   }
   return next();
 }
-export { validateTeam };
+function getTeamValidation(
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction,
+) {
+  const error = validate(req.params, getTeamSchema);
+  if (error) {
+    return res.status(400).json({ error });
+  }
+  return next();
+}
+export { validateTeam, getTeamValidation };

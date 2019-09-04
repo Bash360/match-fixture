@@ -2,6 +2,7 @@ import app from '../src/app';
 import request from 'supertest';
 import { connectToDB, disconnectFromDB } from '../test-setup/test-connection';
 let token: string;
+let teamId: string;
 describe('test for team routes', () => {
   beforeAll(async () => {
     await connectToDB();
@@ -22,7 +23,7 @@ describe('test for team routes', () => {
   it('should create a team and return team details', async () => {
     const { body, status } = await request(app)
       .post('/api/v1/addteam')
-      .set({ header: {} })
+      .set({ authorization: `bearer ${token}` })
       .send({
         name: 'everton',
         teamCode: 'erv',
@@ -35,6 +36,15 @@ describe('test for team routes', () => {
         stadiumAddress: 'Holloway, London',
         stadiumCapacity: 200000,
       });
-    console.log(body, status);
+    expect(status).toBe(200);
+    expect(body).toHaveProperty('stadiumName');
+    teamId = body.id;
+  });
+  it('should return team', async () => {
+    const { body, status } = await request(app)
+      .get(`/api/v1/team/${teamId}`)
+      .set({ authorization: `bearer ${token}` });
+    expect(status).toBe(200);
+    expect(body).toHaveProperty('name');
   });
 });
