@@ -4,6 +4,7 @@ import { connectToDB, disconnectFromDB } from '../test-setup/test-connection';
 let token: string;
 let homeTeamName: string;
 let awayTeamName: string;
+let fixtureURL: string;
 
 describe('test for fixture route', () => {
   beforeAll(async () => {
@@ -65,6 +66,14 @@ describe('test for fixture route', () => {
         matchDate: '12-9-2020',
       });
     expect(status).toBe(200);
-    expect(body).toHaveProperty('leagueName');
+    expect(body).toHaveProperty('fixtureURL');
+    fixtureURL = body.fixtureURL;
+  });
+  it('should return all fixtures', async () => {
+    const { body, status } = await request(app)
+      .get('/api/v1/fixture/all')
+      .set({ authorization: `bearer ${token}` });
+    expect(status).toBe(200);
+    expect(body).toHaveLength(1);
   });
 });
