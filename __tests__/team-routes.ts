@@ -16,7 +16,7 @@ describe('test for team routes', () => {
         gender: 'female',
         password: 'bashbash',
       });
-    token = body.token;
+    token = body.data.token;
   });
   afterAll(async () => {
     await disconnectFromDB();
@@ -38,16 +38,16 @@ describe('test for team routes', () => {
         stadiumCapacity: 200000,
       });
     expect(status).toBe(200);
-    expect(body).toHaveProperty('stadiumName');
-    teamId = body.id;
-    teamName = body.name;
+    expect(body.data).toHaveProperty('stadiumName');
+    teamId = body.data.id;
+    teamName = body.data.name;
   });
   it('should return team', async () => {
     const { body, status } = await request(app)
       .get(`/api/v1/team/${teamId}`)
       .set({ authorization: `bearer ${token}` });
     expect(status).toBe(200);
-    expect(body).toHaveProperty('name');
+    expect(body.data).toHaveProperty('name');
   });
   it('should return update team details ', async () => {
     const { body, status } = await request(app)
@@ -55,7 +55,7 @@ describe('test for team routes', () => {
       .set({ authorization: `bearer ${token}` })
       .send({ stadiumName: 'new london' });
     expect(status).toBe(200);
-    expect(body.stadiumName).toMatch('new london');
+    expect(body.data.stadiumName).toMatch('new london');
   });
   it('should return team details ', async () => {
     const { body, status } = await request(app).get(
@@ -63,14 +63,14 @@ describe('test for team routes', () => {
     );
 
     expect(status).toBe(200);
-    expect(body).toHaveProperty('headCoach');
+    expect(body.data).toHaveProperty('headCoach');
   });
   it('should return teams', async () => {
     const { body, status } = await request(app)
       .get('/api/v1/team/all')
       .set({ authorization: `bearer ${token}` });
     expect(status).toBe(200);
-    expect(body).toHaveLength(1);
+    expect(body.data).toHaveLength(1);
   });
 
   it('should remove a team successfully and return team successfully deleted ', async () => {
@@ -78,6 +78,6 @@ describe('test for team routes', () => {
       .delete(`/api/v1/team/delete/${teamId}`)
       .set({ authorization: `bearer ${token}` });
     expect(status).toBe(200);
-    expect(body).toMatchObject({ message: 'team successfully deleted' });
+    expect(body).toMatchObject({ data: 'team successfully deleted' });
   });
 });

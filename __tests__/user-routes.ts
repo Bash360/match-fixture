@@ -19,14 +19,15 @@ describe('test for user route', () => {
         password: 'bashbash',
       });
     expect(status).toBe(200);
-    expect(body).toHaveProperty('token');
+    expect(body.data).toHaveProperty('token');
   });
   it('should log in user and return user details', async () => {
     const { body, status, header } = await request(app)
       .post('/api/v1/user/login')
       .send({ email: 'stephenchidera@gmail.com', password: 'bashbash' });
     expect(status).toBe(200);
-    expect(body).toHaveProperty('firstName');
+
+    expect(body.data).toHaveProperty('firstName');
     expect(header['authorization']).not.toBeNull();
   });
 });
