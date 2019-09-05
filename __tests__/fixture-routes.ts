@@ -14,7 +14,7 @@ describe('test for fixture route', () => {
       .send({
         firstName: 'veronica',
         lastName: 'bashir',
-        email: 'beauty@gmail.com',
+        email: 'v@gmail.com',
         gender: 'female',
         password: 'bashbash',
       });
@@ -83,5 +83,12 @@ describe('test for fixture route', () => {
       .send({ goalsHomeTeam: 2 });
     expect(status).toBe(200);
     expect(body.goalsHomeTeam).toBe(2);
+  });
+  it('should end game and return fixture details', async () => {
+    const { body, status } = await request(app)
+      .put(`/api/v1/fixture/endgame/${fixtureId}`)
+      .set({ authorization: `bearer ${token}` });
+    expect(status).toBe(200);
+    expect(body.status).toMatch('completed');
   });
 });
