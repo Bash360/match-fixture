@@ -91,4 +91,11 @@ describe('test for fixture route', () => {
     expect(status).toBe(200);
     expect(body.status).toMatch('completed');
   });
+  it('should return fixture successfully removed', async () => {
+    const { body, status } = await request(app)
+      .delete(`/api/v1/fixture/remove/${fixtureId}`)
+      .set({ authorization: `bearer ${token}` });
+    expect(status).toBe(200);
+    expect(body).toMatch('fixture successfully deleted');
+  });
 });
