@@ -4,6 +4,7 @@ import {
   getTeam,
   updateTeam,
   getTeamByName,
+  getAllTeams,
 } from '../src/controllers/team';
 import { connectToDB, disconnectFromDB } from '../test-setup/test-connection';
 import { createAdmin } from '../src/controllers/user';
@@ -41,7 +42,6 @@ describe('test for team controller', () => {
     );
     teamId = teamDetails.id;
     teamName = teamDetails.name;
-    console.log(teamName);
     expect(teamDetails).toHaveProperty('name');
   });
   it('should return team details', async () => {
@@ -63,19 +63,23 @@ describe('test for team controller', () => {
     });
   });
   it('should should return updated team', async () => {
-    const result = await updateTeam(adminId, teamId, {
+    const team = await updateTeam(adminId, teamId, {
       headCoach: 'mark bashir',
     });
-    expect(result.headCoach).toMatch('mark bashir');
+    expect(team.headCoach).toMatch('mark bashir');
   });
   it('should return team details', async () => {
-    const result = await getTeamByName(teamName);
-    expect(result).toHaveProperty('stadiumName');
+    const team = await getTeamByName(teamName);
+    expect(team).toHaveProperty('stadiumName');
+  });
+  it('should should return all teams', async () => {
+    const team = await getAllTeams();
+    expect(team).toHaveLength(1);
   });
 
   it('should remove team and return team successfully removed ', async () => {
-    const result = await removeTeam(adminId, teamId);
+    const team = await removeTeam(adminId, teamId);
 
-    expect(result).toMatch('team successfully deleted');
+    expect(team).toMatch('team successfully deleted');
   });
 });
