@@ -158,7 +158,10 @@ async function endGame(adminId: string, fixtureId: string): Promise<Ifixture> {
   if (fixture.status === 'ongoing') fixture.status = 'completed';
   return await fixture.save();
 }
-async function removeFixture(adminId: string, fixtureId: string) {
+async function removeFixture(
+  adminId: string,
+  fixtureId: string,
+): Promise<string> {
   const admin = await User.findOne({ id: adminId }).select({ isAdmin: 1 });
   if (!admin) throw new Error('only admins are allowed to  remove fixtures');
   const fixture = await Fixture.findOneAndUpdate(

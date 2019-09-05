@@ -82,7 +82,7 @@ async function updateTeam(
   await team.save();
   return await team.teamDetails();
 }
-async function getTeamByName(teamName: string) {
+async function getTeamByName(teamName: string): Promise<Iteam> {
   const teamDetails = await Team.findOne({
     name: teamName,
     archived: false,
@@ -94,4 +94,20 @@ async function getTeamByName(teamName: string) {
   if (!teamDetails) throw new Error('invalid id for team');
   return teamDetails;
 }
-export { createTeam, removeTeam, getTeam, updateTeam, getTeamByName };
+async function getAllTeams(): Promise<Array<Iteam> | null> {
+  const teams = await Team.find({ archived: false }).select({
+    __v: 0,
+    _id: 0,
+    archived: 0,
+  });
+  if (!teams) return null;
+  return teams;
+}
+export {
+  createTeam,
+  removeTeam,
+  getTeam,
+  updateTeam,
+  getTeamByName,
+  getAllTeams,
+};
