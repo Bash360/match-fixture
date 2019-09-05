@@ -20,7 +20,7 @@ adminRouter.post('/admin/signup', validateUser, async (req: any, res: any) => {
     return res
       .header('authorization', adminDetails.token)
       .status(200)
-      .json(adminDetails);
+      .json({ success: true, data: adminDetails });
   } catch (error) {
     return res.status(400).json({ message: error.message });
   }
@@ -28,12 +28,13 @@ adminRouter.post('/admin/signup', validateUser, async (req: any, res: any) => {
 adminRouter.post('/admin/login', validateLogin, async (req: any, res: any) => {
   try {
     const { email, password } = req.body;
-    if (req.sessionID && email === req.session.adminDetails.email) {
+    const admin = req.session.hasOwnProperty('adminDetails');
+    if (req.sessionID && email === admin.email) {
       const adminDetails = req.session.adminDetails;
       return res
         .header('authorization', adminDetails.token)
         .status(200)
-        .json(adminDetails);
+        .json({ success: true, data: adminDetails });
     }
     const adminDetails = await loginUser(email, password);
     if (req.sessionID) {
@@ -42,7 +43,7 @@ adminRouter.post('/admin/login', validateLogin, async (req: any, res: any) => {
     return res
       .header('authorization', adminDetails.token)
       .status(200)
-      .json(adminDetails);
+      .json({ success: true, data: adminDetails });
   } catch (error) {
     console.log(error);
     return res.status(400).json({ message: error.message });

@@ -20,7 +20,7 @@ userRouter.post('/user/signup', validateUser, async (req: any, res: any) => {
     return res
       .header('authorization', userDetails.token)
       .status(200)
-      .json(userDetails);
+      .json({ success: true, data: userDetails });
   } catch (error) {
     return res.status(400).json({ message: error.message });
   }
@@ -31,12 +31,13 @@ userRouter.post(
   async (req: any, res: express.Response) => {
     try {
       const { email, password } = req.body;
-      if (req.sessionID && email === req.session.userDetails.email) {
+      const user = req.session.hasOwnProperty('userDetails');
+      if (req.sessionID && email === user.email) {
         const userDetails = req.session.userDetails;
         return res
           .header('authorization', userDetails.token)
           .status(200)
-          .json(userDetails);
+          .json({ success: true, data: userDetails });
       }
 
       const userDetails = await loginUser(email, password);
@@ -47,7 +48,7 @@ userRouter.post(
       return res
         .header('authorization', userDetails.token)
         .status(200)
-        .json(userDetails);
+        .json({ success: true, data: userDetails });
     } catch (error) {
       return res.status(400).json({ message: error.message });
     }

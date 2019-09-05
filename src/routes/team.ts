@@ -46,7 +46,7 @@ teamRouter.post(
         stadiumAddress,
         stadiumCapacity,
       );
-      return res.status(200).json(teamDetails);
+      return res.status(200).json({ success: true, data: teamDetails });
     } catch (error) {
       return res.status(400).json({ message: error.message });
     }
@@ -59,7 +59,7 @@ teamRouter.get(
     try {
       const teamName = req.query.name;
       const teamDetails = await getTeamByName(teamName);
-      return res.status(200).json(teamDetails);
+      return res.status(200).json({ success: true, data: teamDetails });
     } catch (error) {
       return res.status(400).json({ message: error.message });
     }
@@ -70,7 +70,7 @@ teamRouter.get(
   userAuth,
   async (_req: express.Request, res: express.Response) => {
     const teamDetails = await getAllTeams();
-    return res.status(200).json(teamDetails);
+    return res.status(200).json({ success: true, data: teamDetails });
   },
 );
 teamRouter.get(
@@ -80,7 +80,7 @@ teamRouter.get(
     try {
       let teamId = req.params.id;
       const teamDetails = await getTeam(teamId);
-      return res.status(200).json(teamDetails);
+      return res.status(200).json({ success: true, data: teamDetails });
     } catch (error) {
       return res.status(400).json({ message: error.message });
     }
@@ -96,7 +96,7 @@ teamRouter.put(
       const teamDetails = await updateTeam(res.locals.admin.id, teamId, {
         ...req.body,
       });
-      return res.status(200).json(teamDetails);
+      return res.status(200).json({ success: true, data: teamDetails });
     } catch (error) {
       return res.status(400).json({ message: error.message });
     }
@@ -109,7 +109,7 @@ teamRouter.delete(
     try {
       const teamId = req.params.id;
       const message = await removeTeam(res.locals.admin.id, teamId);
-      return res.status(200).json({ message });
+      return res.status(200).json({ success: true, data: message });
     } catch (error) {
       return res.status(400).json({ message: error.message });
     }

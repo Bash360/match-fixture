@@ -19,14 +19,14 @@ describe('admin route test', () => {
         password: 'bashbash',
       });
     expect(status).toBe(200);
-    expect(body.isAdmin).toBeTruthy();
+    expect(body.data.isAdmin).toBeTruthy();
   });
   it('should login admin and return admin details', async () => {
     const { body, status, header } = await request(app)
       .post('/api/v1/admin/login')
       .send({ email: 'veronicabashir@gmail.com', password: 'bashbash' });
     expect(status).toBe(200);
-    expect(body).toHaveProperty('lastName');
+    expect(body.data).toHaveProperty('lastName');
     expect(header['authorization']).not.toBeNull();
   });
 });

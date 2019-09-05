@@ -32,7 +32,7 @@ fixtureRouter.post(
         matchDate,
         url,
       );
-      return res.status(200).json(fixtureDetails);
+      return res.status(200).json({ success: true, data: fixtureDetails });
     } catch (error) {
       return res.status(400).json({ message: error.message });
     }
@@ -44,7 +44,7 @@ fixtureRouter.get(
   async (_req: express.Request, res: express.Response) => {
     try {
       const allFixtures = await getAllFixtures();
-      return res.status(200).json(allFixtures);
+      return res.status(200).json({ success: true, data: allFixtures });
     } catch (error) {
       return res.status(400).json({ message: error.message });
     }
@@ -57,7 +57,7 @@ fixtureRouter.get(
     try {
       const teamName = req.query.name;
       const fixtureDetails = await getFixtureByTeamName(teamName);
-      return res.status(200).json(fixtureDetails);
+      return res.status(200).json({ success: true, data: fixtureDetails });
     } catch (error) {
       return res.status(400).json({ message: error.message });
     }
@@ -70,7 +70,7 @@ fixtureRouter.get(
     try {
       const fixtureId = req.params.id;
       const fixtureDetails = await getFixture(fixtureId);
-      return res.status(200).json(fixtureDetails);
+      return res.status(200).json({ success: true, data: fixtureDetails });
     } catch (error) {
       return res.status(400).json({ message: error.message });
     }
@@ -87,7 +87,7 @@ fixtureRouter.put(
         fixtureId,
         req.body,
       );
-      return res.status(200).json(fixtureDetails);
+      return res.status(200).json({ success: true, data: fixtureDetails });
     } catch (error) {
       return res.status(400).json({ message: error.message });
     }
@@ -100,7 +100,7 @@ fixtureRouter.put(
     try {
       const fixtureId = req.params.id;
       const fixtureDetails = await endGame(res.locals.admin.id, fixtureId);
-      return res.status(200).json(fixtureDetails);
+      return res.status(200).json({ success: true, data: fixtureDetails });
     } catch (error) {
       return res.status(400).json({ message: error.message });
     }
@@ -116,7 +116,7 @@ fixtureRouter.delete(
         res.locals.admin.id,
         fixtureId,
       );
-      return res.status(200).json(fixtureDetails);
+      return res.status(200).json({ success: true, data: fixtureDetails });
     } catch (error) {
       return res.status(400).json({ message: error.message });
     }
