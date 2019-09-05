@@ -3,11 +3,13 @@ import {
   removeTeam,
   getTeam,
   updateTeam,
+  getTeamByName,
 } from '../src/controllers/team';
 import { connectToDB, disconnectFromDB } from '../test-setup/test-connection';
 import { createAdmin } from '../src/controllers/user';
 let adminId: string;
 let teamId: string;
+let teamName: string;
 describe('test for team controller', () => {
   beforeAll(async () => {
     await connectToDB();
@@ -38,6 +40,8 @@ describe('test for team controller', () => {
       200000,
     );
     teamId = teamDetails.id;
+    teamName = teamDetails.name;
+    console.log(teamName);
     expect(teamDetails).toHaveProperty('name');
   });
   it('should return team details', async () => {
@@ -63,6 +67,10 @@ describe('test for team controller', () => {
       headCoach: 'mark bashir',
     });
     expect(result.headCoach).toMatch('mark bashir');
+  });
+  it('should return team details', async () => {
+    const result = await getTeamByName(teamName);
+    expect(result).toHaveProperty('stadiumName');
   });
 
   it('should remove team and return team successfully removed ', async () => {
