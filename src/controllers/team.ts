@@ -82,4 +82,16 @@ async function updateTeam(
   await team.save();
   return await team.teamDetails();
 }
-export { createTeam, removeTeam, getTeam, updateTeam };
+async function getTeamByName(teamName: string) {
+  const teamDetails = await Team.findOne({
+    name: teamName,
+    archived: false,
+  }).select({
+    __v: 0,
+    _id: 0,
+    archived: 0,
+  });
+  if (!teamDetails) throw new Error('invalid id for team');
+  return teamDetails;
+}
+export { createTeam, removeTeam, getTeam, updateTeam, getTeamByName };

@@ -38,7 +38,7 @@ async function createFixture(
 }
 async function getFixture(fixtureId: string): Promise<Ifixture | null> {
   const fixture = await Fixture.findOne({ id: fixtureId, archived: false })
-    .select({ _id: 0, __v: 0 })
+    .select({ _id: 0, __v: 0, archibed: 0 })
     .populate({
       path: 'homeTeamID',
       match: { archived: false },
@@ -50,6 +50,27 @@ async function getFixture(fixtureId: string): Promise<Ifixture | null> {
       select: '-__v -_id -archived',
     });
   return fixture;
+}
+async function getFixtureByTeamName(teamName: string) {
+  const fixtureDetails = await Fixture.findOne({
+    $or: [
+      { homeTeamName: teamName, archived: false },
+      { awayTeamName: teamName, archived: false },
+    ],
+  })
+    .select({ _id: 0, __v: 0, archived: 0 })
+    .populate({
+      path: 'homeTeamID',
+      match: { archived: false },
+      select: '-__v -_id -archived',
+    })
+    .populate({
+      path: 'awayTeamID',
+      match: { archived: false },
+      select: '-__v -_id -archived',
+    });
+  if (!fixtureDetails) throw new Error('invalid fixture ID');
+  return fixtureDetails;
 }
 async function getAllFixtures(): Promise<Array<Ifixture> | null> {
   const allFixtures = await Fixture.find({ archived: false })
@@ -154,4 +175,5 @@ export {
   updateFixture,
   endGame,
   removeFixture,
+  getFixtureByTeamName,
 };

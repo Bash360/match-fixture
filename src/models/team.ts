@@ -5,7 +5,7 @@ import uniqueValidate from 'mongoose-unique-validator';
 const teamSchema = new Schema(
   {
     id: String,
-    name: { type: String, required: true, unique: true },
+    name: { type: String, required: true, unique: true, index: true },
     teamCode: { type: String, required: true, trim: true, lowercase: true },
     logo: { type: String, required: true, trim: true, lowercase: true },
     country: { type: String, required: true, trim: true, lowercase: true },

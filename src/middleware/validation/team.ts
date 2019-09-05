@@ -72,6 +72,13 @@ const updateSchema = {
     .lowercase(),
   stadiumCapacity: joi.number(),
 };
+const searchSchema = {
+  name: joi
+    .string()
+    .required()
+    .trim()
+    .lowercase(),
+};
 function validateTeam(
   req: express.Request,
   res: express.Response,
@@ -97,5 +104,17 @@ function validateUpdate(
   }
   return next();
 }
+function validateSearch(
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction,
+) {
+  const error = validate(req.body.query, searchSchema);
 
-export { validateTeam, validateUpdate };
+  if (error) {
+    return res.status(400).json({ error });
+  }
+  return next();
+}
+
+export { validateTeam, validateUpdate, validateSearch };

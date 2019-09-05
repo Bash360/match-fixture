@@ -1,11 +1,16 @@
 import express from 'express';
 import adminAuth from '../middleware/auth/admin-auth';
-import { validateTeam, validateUpdate } from '../middleware/validation/team';
+import {
+  validateTeam,
+  validateUpdate,
+  validateSearch,
+} from '../middleware/validation/team';
 import {
   createTeam,
   getTeam,
   updateTeam,
   removeTeam,
+  getTeamByName,
 } from '../controllers/team';
 import userAuth from '../middleware/auth/user-auth';
 const teamRouter = express.Router();
@@ -40,6 +45,19 @@ teamRouter.post(
         stadiumAddress,
         stadiumCapacity,
       );
+      return res.status(200).json(teamDetails);
+    } catch (error) {
+      return res.status(400).json({ message: error.message });
+    }
+  },
+);
+teamRouter.get(
+  '/team?',
+  validateSearch,
+  async (req: express.Request, res: express.Response) => {
+    try {
+      const teamName = req.query.name;
+      const teamDetails = await getTeamByName(teamName);
       return res.status(200).json(teamDetails);
     } catch (error) {
       return res.status(400).json({ message: error.message });
@@ -88,4 +106,5 @@ teamRouter.delete(
     }
   },
 );
+
 export default teamRouter;

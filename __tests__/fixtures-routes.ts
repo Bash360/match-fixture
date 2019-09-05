@@ -91,6 +91,14 @@ describe('test for fixture route', () => {
     expect(status).toBe(200);
     expect(body.status).toMatch('completed');
   });
+  it('should should return fixture details', async () => {
+    const { body, status } = await request(app).get(
+      `/api/v1/fixture?name=${awayTeamName}`,
+    );
+    expect(status).toBe(200);
+    expect(body).toHaveProperty('fixtureURL');
+  });
+
   it('should return fixture successfully removed', async () => {
     const { body, status } = await request(app)
       .delete(`/api/v1/fixture/remove/${fixtureId}`)

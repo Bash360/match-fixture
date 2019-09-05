@@ -10,8 +10,20 @@ const fixtureSchema = new Schema(
       ref: 'team',
       required: true,
     },
-    homeTeamName: { type: String, required: true, trim: true, lowercase: true },
-    awayTeamName: { type: String, required: true, trim: true, lowercase: true },
+    homeTeamName: {
+      type: String,
+      required: true,
+      trim: true,
+      lowercase: true,
+      index: true,
+    },
+    awayTeamName: {
+      type: String,
+      required: true,
+      trim: true,
+      lowercase: true,
+      index: true,
+    },
     awayTeamID: {
       type: Schema.Types.ObjectId,
       ref: 'team',
