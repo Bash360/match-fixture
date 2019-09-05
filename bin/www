@@ -34,6 +34,9 @@ switch (process.env.NODE_ENV) {
   case 'development':
     connection = process.env.MONGO_DEV;
     break;
+  case "test":
+    connection = process.env.MONGO_TEST;
+    break;
   default:
     throw new Error('no connection');
 }
