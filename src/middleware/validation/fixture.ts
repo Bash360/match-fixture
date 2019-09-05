@@ -27,6 +27,13 @@ const updateSchema = {
   goalsHomeTeam: joi.number(),
   goalsAwayTeam: joi.number(),
 };
+const searchSchema = {
+  name: joi
+    .string()
+    .lowercase()
+    .trim()
+    .required(),
+};
 function validateFixture(
   req: express.Request,
   res: express.Response,
@@ -52,4 +59,14 @@ function validateUpdate(
   }
   return next();
 }
-export { validateFixture, validateUpdate };
+function validateSearch(
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction,
+) {
+  const error = validate(req.query, searchSchema);
+  if (error) return res.status(400).json({ error });
+  return next();
+}
+
+export { validateFixture, validateUpdate, validateSearch };

@@ -6,11 +6,13 @@ import {
   updateFixture,
   endGame,
   removeFixture,
+  getFixtureByTeamName,
 } from '../controllers/fixtures';
 import adminAuth from '../middleware/auth/admin-auth';
 import {
   validateFixture,
   validateUpdate,
+  validateSearch,
 } from '../middleware/validation/fixture';
 import userAuth from '../middleware/auth/user-auth';
 const fixtureRouter = express.Router();
@@ -43,6 +45,19 @@ fixtureRouter.get(
     try {
       const allFixtures = await getAllFixtures();
       return res.status(200).json(allFixtures);
+    } catch (error) {
+      return res.status(400).json({ message: error.message });
+    }
+  },
+);
+fixtureRouter.get(
+  '/fixture?',
+  validateSearch,
+  async (req: express.Request, res: express.Response) => {
+    try {
+      const teamName = req.query.name;
+      const fixtureDetails = await getFixtureByTeamName(teamName);
+      return res.status(200).json(fixtureDetails);
     } catch (error) {
       return res.status(400).json({ message: error.message });
     }
