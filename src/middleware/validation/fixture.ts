@@ -24,8 +24,8 @@ const fixtureSchema = {
     .required(),
 };
 const updateSchema = {
-  goalsHomeTeam: joi.number,
-  goalsAwayTeam: joi.number,
+  goalsHomeTeam: joi.number(),
+  goalsAwayTeam: joi.number(),
 };
 function validateFixture(
   req: express.Request,
@@ -46,7 +46,7 @@ function validateUpdate(
   if (!Object.keys(req.body).length) {
     return res.status(400).json('must update one field at least');
   }
-  const errors = validate(updateSchema, req.body);
+  const errors = validate(req.body, updateSchema);
   if (errors) {
     return res.status(400).json({ errors });
   }
