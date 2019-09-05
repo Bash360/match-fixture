@@ -7,6 +7,7 @@ import {
   getAllFixtures,
   updateFixture,
   endGame,
+  removeFixture,
 } from '../src/controllers/fixtures';
 let adminId: string;
 let homeTeam: string;
@@ -86,5 +87,9 @@ describe('test for team controller', () => {
   it('should end game and return fixture details', async () => {
     const result = await endGame(adminId, fixtureId);
     expect(result.status).toMatch('completed');
+  });
+  it('should remove fixture and return fixture successsfully removed', async () => {
+    const result = await removeFixture(adminId, fixtureId);
+    expect(result).toMatch('fixture successfully deleted');
   });
 });
