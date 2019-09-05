@@ -65,6 +65,13 @@ describe('test for team routes', () => {
     expect(status).toBe(200);
     expect(body).toHaveProperty('headCoach');
   });
+  it('should return teams', async () => {
+    const { body, status } = await request(app)
+      .get('/api/v1/team/all')
+      .set({ authorization: `bearer ${token}` });
+    expect(status).toBe(200);
+    expect(body).toHaveLength(1);
+  });
 
   it('should remove a team successfully and return team successfully deleted ', async () => {
     const { body, status } = await request(app)

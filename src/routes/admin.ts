@@ -28,8 +28,8 @@ adminRouter.post('/admin/signup', validateUser, async (req: any, res: any) => {
 adminRouter.post('/admin/login', validateLogin, async (req: any, res: any) => {
   try {
     const { email, password } = req.body;
-    if (req.sessionID) {
-      const adminDetails = req.session.userDetails;
+    if (req.sessionID && email === req.session.adminDetails.email) {
+      const adminDetails = req.session.adminDetails;
       return res
         .header('authorization', adminDetails.token)
         .status(200)

@@ -30,14 +30,15 @@ userRouter.post(
   validateLogin,
   async (req: any, res: express.Response) => {
     try {
-      if (req.sessionID) {
+      const { email, password } = req.body;
+      if (req.sessionID && email === req.session.userDetails.email) {
         const userDetails = req.session.userDetails;
         return res
           .header('authorization', userDetails.token)
           .status(200)
           .json(userDetails);
       }
-      const { email, password } = req.body;
+
       const userDetails = await loginUser(email, password);
       if (req.sessionID) {
         req.session.userDetails = userDetails;
