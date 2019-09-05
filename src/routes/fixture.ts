@@ -4,6 +4,7 @@ import {
   getFixture,
   getAllFixtures,
   updateFixture,
+  endGame,
 } from '../controllers/fixtures';
 import adminAuth from '../middleware/auth/admin-auth';
 import {
@@ -70,6 +71,19 @@ fixtureRouter.put(
         id,
         req.body,
       );
+      return res.status(200).json(fixtureDetails);
+    } catch (error) {
+      return res.status(400).json({ message: error.message });
+    }
+  },
+);
+fixtureRouter.put(
+  '/fixture/endgame/:id',
+  adminAuth,
+  async (req: express.Request, res: express.Response) => {
+    try {
+      const id = req.params.id;
+      const fixtureDetails = await endGame(res.locals.admin.id, id);
       return res.status(200).json(fixtureDetails);
     } catch (error) {
       return res.status(400).json({ message: error.message });

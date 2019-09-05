@@ -118,7 +118,7 @@ async function endGame(adminId: string, fixtureId: string): Promise<Ifixture> {
   const admin = await User.findOne({ id: adminId }).select({ isAdmin: 1 });
   if (!admin) throw new Error('only admins are allowed to end games');
   const fixture = await Fixture.findOne({ id: fixtureId })
-    .select({ __v: 0 })
+    .select({ __v: 0, archived: 0 })
     .populate({
       path: 'homeTeamID',
       match: { archived: false },

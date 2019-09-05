@@ -26,7 +26,7 @@ adminRouter.post(
   },
 );
 adminRouter.post(
-  '/admin/admin',
+  '/admin/login',
   validateLogin,
   async (req: express.Request, res: express.Response) => {
     try {
