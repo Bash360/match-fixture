@@ -5,6 +5,7 @@ import {
   getAllFixtures,
   updateFixture,
   endGame,
+  removeFixture,
 } from '../controllers/fixtures';
 import adminAuth from '../middleware/auth/admin-auth';
 import {
@@ -52,8 +53,8 @@ fixtureRouter.get(
   userAuth,
   async (req: express.Request, res: express.Response) => {
     try {
-      const { id } = req.params;
-      const fixtureDetails = await getFixture(id);
+      const fixtureId = req.params.id;
+      const fixtureDetails = await getFixture(fixtureId);
       return res.status(200).json(fixtureDetails);
     } catch (error) {
       return res.status(400).json({ message: error.message });
@@ -65,10 +66,10 @@ fixtureRouter.put(
   [adminAuth, validateUpdate],
   async (req: express.Request, res: express.Response) => {
     try {
-      const id = req.params.id;
+      const fixtureId = req.params.id;
       const fixtureDetails = await updateFixture(
         res.locals.admin.id,
-        id,
+        fixtureId,
         req.body,
       );
       return res.status(200).json(fixtureDetails);
@@ -82,8 +83,24 @@ fixtureRouter.put(
   adminAuth,
   async (req: express.Request, res: express.Response) => {
     try {
-      const id = req.params.id;
-      const fixtureDetails = await endGame(res.locals.admin.id, id);
+      const fixtureId = req.params.id;
+      const fixtureDetails = await endGame(res.locals.admin.id, fixtureId);
+      return res.status(200).json(fixtureDetails);
+    } catch (error) {
+      return res.status(400).json({ message: error.message });
+    }
+  },
+);
+fixtureRouter.delete(
+  '/fixture/remove/:id',
+  adminAuth,
+  async (req: express.Request, res: express.Response) => {
+    try {
+      const fixtureId = req.params.id;
+      const fixtureDetails = await removeFixture(
+        res.locals.admin.id,
+        fixtureId,
+      );
       return res.status(200).json(fixtureDetails);
     } catch (error) {
       return res.status(400).json({ message: error.message });
