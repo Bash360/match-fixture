@@ -14,15 +14,15 @@ describe('test for user controller', () => {
     await disconnectFromDB();
   });
   it('should create user and return user details', async () => {
-    const result = await createUser(
+    const user = await createUser(
       'mark',
       'bashir',
       'beejayphil@gmail.com',
       'male',
       'bashbash',
     );
-    userId = result.id;
-    expect(result).toMatchObject({
+    userId = user.id;
+    expect(user).toMatchObject({
       isAdmin: expect.any(Boolean),
       id: expect.any(String),
       firstName: expect.any(String),
@@ -35,8 +35,8 @@ describe('test for user controller', () => {
     });
   });
   it('should return user details', async () => {
-    const result = await loginUser('beejayphil@gmail.com', 'bashbash');
-    expect(result).toMatchObject({
+    const user = await loginUser('beejayphil@gmail.com', 'bashbash');
+    expect(user).toMatchObject({
       isAdmin: expect.any(Boolean),
       id: expect.any(String),
       firstName: expect.any(String),
@@ -60,8 +60,8 @@ describe('test for user controller', () => {
       });
   });
   it('should return user details', async () => {
-    const result = await getUser(userId);
-    expect(result).toMatchObject({
+    const user = await getUser(userId);
+    expect(user).toMatchObject({
       isAdmin: expect.any(Boolean),
       id: expect.any(String),
       firstName: expect.any(String),
@@ -73,17 +73,17 @@ describe('test for user controller', () => {
     });
   });
   it('should return null', async () => {
-    const result = await getUser(userId + 12);
-    expect(result).toBeNull();
+    const user = await getUser(userId + 12);
+    expect(user).toBeNull();
   });
   it('should create Admin and return admin details', async () => {
-    const result = await createAdmin(
+    const admin = await createAdmin(
       'gamaliel',
       'eweke',
       'gam360@gmail.com',
       'male',
       'iamgam',
     );
-    expect(result.isAdmin).toBeTruthy();
+    expect(admin.isAdmin).toBeTruthy();
   });
 });

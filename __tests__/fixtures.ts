@@ -58,7 +58,7 @@ describe('test for team controller', () => {
     await disconnectFromDB();
   });
   it('should should create fixture return fixtures details', async () => {
-    const result = await createFixture(
+    const fixture = await createFixture(
       adminId,
       homeTeam,
       awayTeam,
@@ -66,36 +66,36 @@ describe('test for team controller', () => {
       '12-9-20120',
       'fixture/gdhsdhsdhshdhs',
     );
-    fixtureId = result.id;
-    expect(result).toHaveProperty('homeTeamID');
+    fixtureId = fixture.id;
+    expect(fixture).toHaveProperty('homeTeamID');
   });
   it('should return fixture ', async () => {
-    const result = await getFixture(fixtureId);
-    expect(result).toHaveProperty('leagueName');
+    const fixture = await getFixture(fixtureId);
+    expect(fixture).toHaveProperty('leagueName');
   });
   it('should return all fixtures', async () => {
-    const result = await getAllFixtures();
-    expect(result).toHaveLength(1);
+    const fixture = await getAllFixtures();
+    expect(fixture).toHaveLength(1);
   });
   it('should update fixture and return new fixture details', async () => {
-    const result = await updateFixture(adminId, fixtureId, {
+    const fixture = await updateFixture(adminId, fixtureId, {
       goalsAwayTeam: 0,
       goalsHomeTeam: 0,
     });
-    expect(result.goalsAwayTeam).toBe(0);
-    expect(result.goalsHomeTeam).toBe(0);
+    expect(fixture.goalsAwayTeam).toBe(0);
+    expect(fixture.goalsHomeTeam).toBe(0);
   });
   it('should end game and return fixture details', async () => {
-    const result = await endGame(adminId, fixtureId);
-    expect(result.status).toMatch('completed');
+    const fixture = await endGame(adminId, fixtureId);
+    expect(fixture.status).toMatch('completed');
   });
   it('should return fixture details', async () => {
-    const result = await getFixtureByTeamName(homeTeam);
-    expect(result).toHaveProperty('leagueName');
+    const fixture = await getFixtureByTeamName(homeTeam);
+    expect(fixture).toHaveProperty('leagueName');
   });
 
   it('should remove fixture and return fixture successsfully removed', async () => {
-    const result = await removeFixture(adminId, fixtureId);
-    expect(result).toMatch('fixture successfully deleted');
+    const fixture = await removeFixture(adminId, fixtureId);
+    expect(fixture).toMatch('fixture successfully deleted');
   });
 });
