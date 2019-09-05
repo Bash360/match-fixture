@@ -51,8 +51,8 @@ teamRouter.get(
   userAuth,
   async (req: express.Request, res: express.Response) => {
     try {
-      let { id } = req.params;
-      const teamDetails = await getTeam(id);
+      let teamId = req.params.id;
+      const teamDetails = await getTeam(teamId);
       return res.status(200).json(teamDetails);
     } catch (error) {
       return res.status(400).json({ message: error.message });
@@ -65,8 +65,8 @@ teamRouter.put(
   validateUpdate,
   async (req: express.Request, res: express.Response) => {
     try {
-      const { id } = req.params;
-      const teamDetails = await updateTeam(res.locals.admin.id, id, {
+      const teamId = req.params.id;
+      const teamDetails = await updateTeam(res.locals.admin.id, teamId, {
         ...req.body,
       });
       return res.status(200).json(teamDetails);
@@ -80,8 +80,8 @@ teamRouter.delete(
   adminAuth,
   async (req: express.Request, res: express.Response) => {
     try {
-      const { id } = req.params;
-      const message = await removeTeam(res.locals.admin.id, id);
+      const teamId = req.params.id;
+      const message = await removeTeam(res.locals.admin.id, teamId);
       return res.status(200).json({ message });
     } catch (error) {
       return res.status(400).json({ message: error.message });

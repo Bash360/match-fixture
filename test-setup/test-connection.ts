@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 require('dotenv').config();
 let connection: string;
-if (process.env.MONGO_DEV) {
-  connection = process.env.MONGO_DEV;
+if (process.env.MONGO_TEST) {
+  connection = process.env.MONGO_TEST;
 } else {
   process.exit(1);
 }

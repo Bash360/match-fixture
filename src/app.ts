@@ -6,6 +6,7 @@ import logger from 'morgan';
 import userRouter from './routes/user';
 import adminRouter from './routes/admin';
 import teamRouter from './routes/team';
+import fixtureRouter from './routes/fixture';
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/api/v1', userRouter);
 app.use('/api/v1', adminRouter);
 app.use('/api/v1', teamRouter);
+app.use('/api/v1', fixtureRouter);
 // catch 404 and forward to error handler
 app.use(function(
   _req: express.Request,

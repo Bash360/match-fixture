@@ -10,7 +10,7 @@ async function createFixture(
   awayTeamName: string,
   referee: string,
   matchDate: string,
-  fixtureURL?: string,
+  fixtureURL: string,
 ): Promise<Ifixture> {
   const admin = await User.findOne({ id: adminId, isAdmin: true }).select({
     isAdmin: 1,
@@ -117,8 +117,8 @@ async function updateFixture(
 async function endGame(adminId: string, fixtureId: string): Promise<Ifixture> {
   const admin = await User.findOne({ id: adminId }).select({ isAdmin: 1 });
   if (!admin) throw new Error('only admins are allowed to end games');
-  const fixture = await Fixture.findOne({ id: fixtureId })
-    .select({ __v: 0 })
+  const fixture = await Fixture.findOne({ id: fixtureId, archived: false })
+    .select({ __v: 0, archived: 0 })
     .populate({
       path: 'homeTeamID',
       match: { archived: false },
@@ -137,4 +137,21 @@ async function endGame(adminId: string, fixtureId: string): Promise<Ifixture> {
   if (fixture.status === 'ongoing') fixture.status = 'completed';
   return await fixture.save();
 }
-export { createFixture, getFixture, getAllFixtures, updateFixture, endGame };
+async function removeFixture(adminId: string, fixtureId: string) {
+  const admin = await User.findOne({ id: adminId }).select({ isAdmin: 1 });
+  if (!admin) throw new Error('only admins are allowed to  remove fixtures');
+  const fixture = await Fixture.findOneAndUpdate(
+    { id: fixtureId, archived: false },
+    { $set: { archived: true } },
+  );
+  if (!fixture) throw new Error('invalid fixture Id');
+  return 'fixture successfully deleted';
+}
+export {
+  createFixture,
+  getFixture,
+  getAllFixtures,
+  updateFixture,
+  endGame,
+  removeFixture,
+};

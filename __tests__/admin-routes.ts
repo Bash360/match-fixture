@@ -10,7 +10,7 @@ describe('admin route test', () => {
   });
   it('should sign up admin and return admin details', async () => {
     const { body, status } = await request(app)
-      .post('/api/v1/signupadmin')
+      .post('/api/v1/admin/signup')
       .send({
         firstName: 'veronica',
         lastName: 'bashir',
@@ -23,7 +23,7 @@ describe('admin route test', () => {
   });
   it('should login admin and return admin details', async () => {
     const { body, status, header } = await request(app)
-      .post('/api/v1/loginadmin')
+      .post('/api/v1/admin/login')
       .send({ email: 'veronicabashir@gmail.com', password: 'bashbash' });
     expect(status).toBe(200);
     expect(body).toHaveProperty('lastName');
