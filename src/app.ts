@@ -3,10 +3,21 @@ import express from 'express';
 import cors from 'cors';
 import compression from 'compression';
 import logger from 'morgan';
+import redis from 'redis';
+import connectRedis from 'connect-redis';
+import session from 'express-session';
 import userRouter from './routes/user';
 import adminRouter from './routes/admin';
 import teamRouter from './routes/team';
 import fixtureRouter from './routes/fixture';
+require('dotenv').config();
+
+const RedisStore = connectRedis(session);
+const redisClient = redis.createClient();
+// logs error failed connection to redis
+redisClient.on('error', err => {
+  console.log('Redis error: ', err);
+});
 
 const app = express();
 
@@ -17,10 +28,25 @@ app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(
+  session({
+    store: new RedisStore({
+      host: 'localhost',
+      port: 6379,
+      client: redisClient,
+      ttl: 2600,
+    }),
+    name: 'premier-league-session',
+    secret: `${process.env.SESSION_SECRET}`,
+    resave: false,
+    saveUninitialized: false,
+  }),
+);
 app.use('/api/v1', userRouter);
 app.use('/api/v1', adminRouter);
 app.use('/api/v1', teamRouter);
 app.use('/api/v1', fixtureRouter);
+
 // catch 404 and forward to error handler
 app.use(function(
   _req: express.Request,
