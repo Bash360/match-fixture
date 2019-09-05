@@ -3,6 +3,7 @@ import request from 'supertest';
 import { connectToDB, disconnectFromDB } from '../test-setup/test-connection';
 let token: string;
 let teamId: string;
+let teamName: string;
 describe('test for team routes', () => {
   beforeAll(async () => {
     await connectToDB();
@@ -39,6 +40,7 @@ describe('test for team routes', () => {
     expect(status).toBe(200);
     expect(body).toHaveProperty('stadiumName');
     teamId = body.id;
+    teamName = body.name;
   });
   it('should return team', async () => {
     const { body, status } = await request(app)
@@ -55,6 +57,15 @@ describe('test for team routes', () => {
     expect(status).toBe(200);
     expect(body.stadiumName).toMatch('new london');
   });
+  it('should return team details ', async () => {
+    const { body, status } = await request(app).get(
+      `/api/v1/team?name=${teamName}`,
+    );
+
+    expect(status).toBe(200);
+    expect(body).toHaveProperty('headCoach');
+  });
+
   it('should remove a team successfully and return team successfully deleted ', async () => {
     const { body, status } = await request(app)
       .delete(`/api/v1/team/delete/${teamId}`)
