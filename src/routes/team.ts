@@ -11,6 +11,7 @@ import {
   updateTeam,
   removeTeam,
   getTeamByName,
+  getAllTeams,
 } from '../controllers/team';
 import userAuth from '../middleware/auth/user-auth';
 const teamRouter = express.Router();
@@ -62,6 +63,14 @@ teamRouter.get(
     } catch (error) {
       return res.status(400).json({ message: error.message });
     }
+  },
+);
+teamRouter.get(
+  '/team/all',
+  userAuth,
+  async (_req: express.Request, res: express.Response) => {
+    const teamDetails = await getAllTeams();
+    return res.status(200).json(teamDetails);
   },
 );
 teamRouter.get(
