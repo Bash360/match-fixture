@@ -4,6 +4,7 @@ import { connectToDB, disconnectFromDB } from '../test-setup/test-connection';
 let token: string;
 let homeTeamName: string;
 let awayTeamName: string;
+let fixtureId: string;
 
 describe('test for fixture route', () => {
   beforeAll(async () => {
@@ -66,7 +67,7 @@ describe('test for fixture route', () => {
       });
     expect(status).toBe(200);
     expect(body).toHaveProperty('fixtureURL');
-    fixtureURL = body.fixtureURL;
+    fixtureId = body.id;
   });
   it('should return all fixtures', async () => {
     const { body, status } = await request(app)
@@ -74,5 +75,13 @@ describe('test for fixture route', () => {
       .set({ authorization: `bearer ${token}` });
     expect(status).toBe(200);
     expect(body).toHaveLength(1);
+  });
+  it('should return updated fixture', async () => {
+    const { body, status } = await request(app)
+      .put(`/api/v1/fixture/update/${fixtureId}`)
+      .set({ authorization: `bearer ${token}` })
+      .send({ goalsHomeTeam: 2 });
+    expect(status).toBe(200);
+    expect(body.goalsHomeTeam).toBe(2);
   });
 });
