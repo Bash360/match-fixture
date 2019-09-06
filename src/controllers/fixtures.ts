@@ -38,7 +38,7 @@ async function createFixture(
 }
 async function getFixture(fixtureId: string): Promise<Ifixture | null> {
   const fixture = await Fixture.findOne({ id: fixtureId, archived: false })
-    .select({ _id: 0, __v: 0, archibed: 0 })
+    .select({ _id: 0, __v: 0, archived: 0 })
     .populate({
       path: 'homeTeamID',
       match: { archived: false },

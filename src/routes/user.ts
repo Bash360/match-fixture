@@ -16,6 +16,7 @@ userRouter.post('/user/signup', validateUser, async (req: any, res: any) => {
     );
     if (req.sessionID) {
       req.session.userDetails = userDetails;
+      req.session.limit = 1;
     }
     return res
       .header('authorization', userDetails.token)
@@ -31,9 +32,12 @@ userRouter.post(
   async (req: any, res: express.Response) => {
     try {
       const { email, password } = req.body;
-      const user = req.session.hasOwnProperty('userDetails');
-      if (req.sessionID && email === user.email) {
+      const userEmail = req.session.hasOwnProperty('userDetails')
+        ? req.session.userDetails.mail
+        : null;
+      if (req.sessionID && email === userEmail) {
         const userDetails = req.session.userDetails;
+        req.session.limit += 1;
         return res
           .header('authorization', userDetails.token)
           .status(200)
@@ -43,6 +47,7 @@ userRouter.post(
       const userDetails = await loginUser(email, password);
       if (req.sessionID) {
         req.session.userDetails = userDetails;
+        req.session.limit = 1;
       }
 
       return res

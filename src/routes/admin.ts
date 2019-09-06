@@ -28,8 +28,10 @@ adminRouter.post('/admin/signup', validateUser, async (req: any, res: any) => {
 adminRouter.post('/admin/login', validateLogin, async (req: any, res: any) => {
   try {
     const { email, password } = req.body;
-    const admin = req.session.hasOwnProperty('adminDetails');
-    if (req.sessionID && email === admin.email) {
+    const adminEmail = req.session.hasOwnProperty('adminDetails')
+      ? req.session.adminDetails.mail
+      : null;
+    if (req.sessionID && email === adminEmail) {
       const adminDetails = req.session.adminDetails;
       return res
         .header('authorization', adminDetails.token)
