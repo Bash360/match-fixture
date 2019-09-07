@@ -10,7 +10,8 @@ if (process.env.SECRET) {
 }
 function userAuth(req: any, res: express.Response, next: express.NextFunction) {
   const token: any = req.header('authorization');
-  if (!token) return res.status(401).json('Access denied no token provided');
+  if (!token)
+    return res.status(401).json('Access denied must be a registered user');
   try {
     let bearerToken = token.split(' ')[1];
     const decoded: any = jwt.verify(bearerToken, secret);
