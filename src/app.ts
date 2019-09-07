@@ -31,7 +31,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(
   session({
     store: new RedisStore({
-      host: 'localhost',
+      host: 'redis',
       port: 6379,
       client: redisClient,
       ttl: 2600,
