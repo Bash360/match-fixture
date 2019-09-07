@@ -68,18 +68,21 @@ teamRouter.get(
 teamRouter.get(
   '/team/all',
   [userAuth, limitAPI],
-  async (_req: express.Request, res: express.Response) => {
+  async (req: any, res: any) => {
     const teamDetails = await getAllTeams();
+    !req.session.limit ? 0 : (req.session.limit += 1);
     return res.status(200).json({ success: true, data: teamDetails });
   },
 );
 teamRouter.get(
   '/team/:id',
   [userAuth, limitAPI],
-  async (req: express.Request, res: express.Response) => {
+  async (req: any, res: express.Response) => {
     try {
       let teamId = req.params.id;
       const teamDetails = await getTeam(teamId);
+      !req.session.limit ? 0 : (req.session.limit += 1);
+
       return res.status(200).json({ success: true, data: teamDetails });
     } catch (error) {
       return res.status(400).json({ message: error.message });

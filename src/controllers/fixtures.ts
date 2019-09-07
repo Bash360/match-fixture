@@ -52,10 +52,10 @@ async function getFixture(fixtureId: string): Promise<Ifixture | null> {
   return fixture;
 }
 async function getFixtureByTeamName(teamName: string) {
-  const fixtureDetails = await Fixture.findOne({
+  const fixtureDetails = await Fixture.find({
     $or: [
-      { homeTeamName: teamName, archived: false },
-      { awayTeamName: teamName, archived: false },
+      { homeTeamName: { $regex: new RegExp(teamName), $options: 'i' } },
+      { awayTeamName: { $regex: new RegExp(teamName), $options: 'i' } },
     ],
   })
     .select({ _id: 0, __v: 0, archived: 0 })

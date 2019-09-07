@@ -82,16 +82,16 @@ async function updateTeam(
   await team.save();
   return await team.teamDetails();
 }
-async function getTeamByName(teamName: string): Promise<Iteam> {
-  const teamDetails = await Team.findOne({
-    name: teamName,
+async function getTeamByName(teamName: string): Promise<any> {
+  const teamDetails = await Team.find({
+    name: { $regex: new RegExp(teamName), $options: 'i' },
     archived: false,
   }).select({
     __v: 0,
     _id: 0,
     archived: 0,
   });
-  if (!teamDetails) throw new Error('invalid id for team');
+  if (!teamDetails.length) throw new Error('no team with such name');
   return teamDetails;
 }
 async function getAllTeams(): Promise<Array<Iteam> | null> {

@@ -90,8 +90,8 @@ describe('test for team controller', () => {
     expect(fixture.status).toMatch('completed');
   });
   it('should return fixture details', async () => {
-    const fixture = await getFixtureByTeamName(homeTeam);
-    expect(fixture).toHaveProperty('leagueName');
+    const fixture = await getFixtureByTeamName(awayTeam);
+    expect(fixture).toHaveLength(1);
   });
 
   it('should remove fixture and return fixture successsfully removed', async () => {
