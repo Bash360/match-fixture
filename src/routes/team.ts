@@ -13,7 +13,7 @@ import {
   getTeamByName,
   getAllTeams,
 } from '../controllers/team';
-import userAuth from '../middleware/auth/user-auth';
+import { userAuth, limitAPI } from '../middleware/auth/user-auth';
 const teamRouter = express.Router();
 
 teamRouter.post(
@@ -67,7 +67,7 @@ teamRouter.get(
 );
 teamRouter.get(
   '/team/all',
-  userAuth,
+  [userAuth, limitAPI],
   async (_req: express.Request, res: express.Response) => {
     const teamDetails = await getAllTeams();
     return res.status(200).json({ success: true, data: teamDetails });
@@ -75,7 +75,7 @@ teamRouter.get(
 );
 teamRouter.get(
   '/team/:id',
-  userAuth,
+  [userAuth, limitAPI],
   async (req: express.Request, res: express.Response) => {
     try {
       let teamId = req.params.id;
@@ -88,8 +88,7 @@ teamRouter.get(
 );
 teamRouter.put(
   '/team/update/:id',
-  adminAuth,
-  validateUpdate,
+  [adminAuth, validateUpdate],
   async (req: express.Request, res: express.Response) => {
     try {
       const teamId = req.params.id;

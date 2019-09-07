@@ -8,14 +8,9 @@ if (process.env.SECRET) {
   console.log('environment variable secret not set');
   process.exit(1);
 }
-function userAuth(
-  req: express.Request,
-  res: express.Response,
-  next: express.NextFunction,
-) {
+function userAuth(req: any, res: express.Response, next: express.NextFunction) {
   const token: any = req.header('authorization');
   if (!token) return res.status(401).json('Access denied no token provided');
-
   try {
     let bearerToken = token.split(' ')[1];
     const decoded: any = jwt.verify(bearerToken, secret);
@@ -30,4 +25,9 @@ function userAuth(
     return res.status(400).json('invalid token');
   }
 }
-export default userAuth;
+function limitAPI(req: any, res: express.Response, next: express.NextFunction) {
+  const limit = req.session.hasOwnProperty('limit') ? req.session.limit : null;
+  if (limit >= 5) return res.status(429).json({ message: 'Too Many Requests' });
+  return next();
+}
+export { userAuth, limitAPI };

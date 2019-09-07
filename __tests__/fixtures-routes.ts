@@ -65,6 +65,7 @@ describe('test for fixture route', () => {
         referee: 'mark bashir',
         matchDate: '12-9-2020',
       });
+
     expect(status).toBe(200);
     expect(body.data).toHaveProperty('fixtureURL');
     fixtureId = body.data.id;

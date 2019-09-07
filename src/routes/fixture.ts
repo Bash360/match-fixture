@@ -14,7 +14,7 @@ import {
   validateUpdate,
   validateSearch,
 } from '../middleware/validation/fixture';
-import userAuth from '../middleware/auth/user-auth';
+import { userAuth, limitAPI } from '../middleware/auth/user-auth';
 const fixtureRouter = express.Router();
 
 fixtureRouter.post(
@@ -40,7 +40,7 @@ fixtureRouter.post(
 );
 fixtureRouter.get(
   '/fixture/all',
-  userAuth,
+  [userAuth, limitAPI],
   async (_req: express.Request, res: express.Response) => {
     try {
       const allFixtures = await getAllFixtures();
@@ -65,7 +65,7 @@ fixtureRouter.get(
 );
 fixtureRouter.get(
   '/fixture/:id',
-  userAuth,
+  [userAuth, limitAPI],
   async (req: express.Request, res: express.Response) => {
     try {
       const fixtureId = req.params.id;
