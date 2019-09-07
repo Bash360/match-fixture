@@ -69,7 +69,7 @@ describe('test for team controller', () => {
     expect(team.headCoach).toMatch('mark bashir');
   });
   it('should return team details', async () => {
-    const team = await getTeamByName(teamName);
+    const team = await getTeamByName('name', teamName);
     expect(team[0]).toHaveProperty('stadiumName');
   });
   it('should should return all teams', async () => {
