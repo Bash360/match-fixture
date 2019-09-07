@@ -88,8 +88,7 @@ teamRouter.get(
 );
 teamRouter.put(
   '/team/update/:id',
-  adminAuth,
-  validateUpdate,
+  [adminAuth, validateUpdate],
   async (req: express.Request, res: express.Response) => {
     try {
       const teamId = req.params.id;

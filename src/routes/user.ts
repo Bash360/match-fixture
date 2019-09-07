@@ -33,7 +33,7 @@ userRouter.post(
     try {
       const { email, password } = req.body;
       const userEmail = req.session.hasOwnProperty('userDetails')
-        ? req.session.userDetails.mail
+        ? req.session.userDetails.email
         : null;
       if (req.sessionID && email === userEmail) {
         const userDetails = req.session.userDetails;

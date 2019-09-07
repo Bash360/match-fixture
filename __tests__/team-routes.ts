@@ -61,7 +61,6 @@ describe('test for team routes', () => {
     const { body, status } = await request(app).get(
       `/api/v1/team?name=${teamName}`,
     );
-
     expect(status).toBe(200);
     expect(body.data).toHaveProperty('headCoach');
   });

@@ -29,7 +29,7 @@ adminRouter.post('/admin/login', validateLogin, async (req: any, res: any) => {
   try {
     const { email, password } = req.body;
     const adminEmail = req.session.hasOwnProperty('adminDetails')
-      ? req.session.adminDetails.mail
+      ? req.session.adminDetails.email
       : null;
     if (req.sessionID && email === adminEmail) {
       const adminDetails = req.session.adminDetails;
