@@ -14,7 +14,7 @@ function adminAuth(
   next: express.NextFunction,
 ) {
   const token: any = req.header('authorization');
-  if (!token) return res.status(401).json('Access denied no token provided');
+  if (!token) return res.status(401).json('Access denied only admin');
 
   try {
     let bearerToken = token.split(' ')[1];
