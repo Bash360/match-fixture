@@ -70,7 +70,7 @@ describe('test for team controller', () => {
   });
   it('should return team details', async () => {
     const team = await getTeamByName(teamName);
-    expect(team).toHaveProperty('stadiumName');
+    expect(team[0]).toHaveProperty('stadiumName');
   });
   it('should should return all teams', async () => {
     const team = await getAllTeams();
