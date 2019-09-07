@@ -23,7 +23,7 @@ fixtureRouter.post(
   async (req: express.Request, res: express.Response) => {
     try {
       const { homeTeamName, awayTeamName, referee, matchDate } = req.body;
-      const url = `${req.protocol}://${req.hostname}/api/v1/fixture/`;
+      const url = `${req.protocol}://${req.hostname}/fixture/`;
       const fixtureDetails = await createFixture(
         res.locals.admin.id,
         homeTeamName,
