@@ -13,7 +13,7 @@ import fixtureRouter from './routes/fixture';
 require('dotenv').config();
 
 const RedisStore = connectRedis(session);
-const redisClient = redis.createClient();
+const redisClient = redis.createClient(`${process.env.REDIS_URL}`);
 // logs error failed connection to redis
 redisClient.on('error', err => {
   console.log('Redis error: ', err);
