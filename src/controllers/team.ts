@@ -82,9 +82,9 @@ async function updateTeam(
   await team.save();
   return await team.teamDetails();
 }
-async function getTeamByName(teamName: string): Promise<any> {
+async function getTeamByName(key: string, value: any): Promise<any> {
   const teamDetails = await Team.find({
-    name: { $regex: new RegExp(teamName), $options: 'i' },
+    [key]: { $regex: new RegExp(value), $options: 'i' },
     archived: false,
   }).select({
     __v: 0,

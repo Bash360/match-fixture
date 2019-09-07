@@ -75,7 +75,14 @@ const updateSchema = {
 const searchSchema = {
   name: joi
     .string()
-    .required()
+    .trim()
+    .lowercase(),
+  country: joi
+    .string()
+    .trim()
+    .lowercase(),
+  city: joi
+    .string()
     .trim()
     .lowercase(),
 };

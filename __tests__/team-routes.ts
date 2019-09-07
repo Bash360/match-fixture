@@ -57,7 +57,7 @@ describe('test for team routes', () => {
     expect(status).toBe(200);
     expect(body.data.stadiumName).toMatch('new london');
   });
-  it('should return team details ', async () => {
+  it('search for team return team details ', async () => {
     const { body, status } = await request(app).get(
       `/api/v1/team?name=${teamName}`,
     );

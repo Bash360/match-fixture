@@ -57,8 +57,9 @@ teamRouter.get(
   validateSearch,
   async (req: express.Request, res: express.Response) => {
     try {
-      const teamName = req.query.name;
-      const teamDetails = await getTeamByName(teamName);
+      const searchKey = Object.keys(req.query)[0];
+      const searchValue = Object.values(req.query)[0];
+      const teamDetails = await getTeamByName(searchKey, searchValue);
       return res.status(200).json({ success: true, data: teamDetails });
     } catch (error) {
       return res.status(400).json({ message: error.message });
