@@ -65,7 +65,6 @@ describe('test for fixture route', () => {
         referee: 'mark bashir',
         matchDate: '12-9-2020',
       });
-
     expect(status).toBe(200);
     expect(body.data).toHaveProperty('fixtureURL');
     fixtureId = body.data.id;
@@ -97,7 +96,7 @@ describe('test for fixture route', () => {
       `/api/v1/fixture?name=${awayTeamName}`,
     );
     expect(status).toBe(200);
-    expect(body.data).toHaveProperty('fixtureURL');
+    expect(body.data[0]).toHaveProperty('fixtureURL');
   });
 
   it('should return fixture successfully removed', async () => {
