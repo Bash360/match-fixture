@@ -91,7 +91,7 @@ async function getTeamByName(key: string, value: any): Promise<any> {
     _id: 0,
     archived: 0,
   });
-  if (!teamDetails.length) throw new Error('no team with such name');
+  if (!teamDetails.length) throw new Error('no team with such ' + key);
   return teamDetails;
 }
 async function getAllTeams(): Promise<Array<Iteam> | null> {
