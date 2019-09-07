@@ -100,13 +100,5 @@ async function loginUser(mail: string, passwrd: string): Promise<any> {
     token: user.generateToken(),
   };
 }
-async function getUser(id: string) {
-  const user = await User.findOne({ id }).select({
-    __v: 0,
-    _id: 0,
-    password: 0,
-  });
-  if (!user) return null;
-  return user;
-}
-export { createUser, loginUser, getUser, createAdmin };
+
+export { createUser, loginUser, createAdmin };
