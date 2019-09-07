@@ -3,8 +3,8 @@ services:
   app:
     container_name: premier-league
     build: .
-    links:
-      - redis
+    networks:
+      - app_net
     ports:
       - '3000:3000'
     depends_on:
@@ -12,9 +12,21 @@ services:
       - mongo
   redis:
     container_name: redis
-    image: 'redis:alpine'
+    image: redis
     expose:
       - 6379
+    command: ['redis-server']
+
+    hostname: redis
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - '6379:6379'
+    networks:
+      - app_net
   mongo:
     container_name: mongo
     image: mongo
+    networks:
+      - app_net
+networks: app_net:
