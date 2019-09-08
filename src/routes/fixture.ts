@@ -51,7 +51,7 @@ fixtureRouter.get(
   },
 );
 fixtureRouter.get(
-  '/fixture?',
+  '/fixture/search?',
   validateSearch,
   async (req: express.Request, res: express.Response) => {
     try {

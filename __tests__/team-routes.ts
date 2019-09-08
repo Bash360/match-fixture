@@ -59,7 +59,7 @@ describe('test for team routes', () => {
   });
   it('search for team return team details ', async () => {
     const { body, status } = await request(app).get(
-      `/api/v1/team?name=${teamName}`,
+      `/api/v1/team/search?name=${teamName}`,
     );
     expect(status).toBe(200);
     expect(body.data[0]).toHaveProperty('headCoach');
