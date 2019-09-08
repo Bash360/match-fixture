@@ -19,9 +19,14 @@ Can
 [https://sterling-premier-league.herokuapp.com](https://sterling-premier-league.herokuapp.com)
 
 ## END POINT
-[https://sterling-premier-league.herokuapp.com/api/v1](https://sterling-premier-league.herokuapp.com/api/v1/{{routes}})
-### Routes 
-1. https://sterling-premier-league.herokuapp.com/api/v1/user
-2. https://sterling-premier-league.herokuapp.com/api/v1/admin
-3. https://sterling-premier-league.herokuapp.com/api/v1/team
-4. https://sterling-premier-league.herokuapp.com/api/v1/fixture
+[https://sterling-premier-league.herokuapp.com/api/v1/{{routes}}](https://sterling-premier-league.herokuapp.com/api/v1/{{routes}})
+### End points for Routes 
+#### User
+1. https://sterling-premier-league.herokuapp.com/api/v1/user/login
+2. https://sterling-premier-league.herokuapp.com/api/v1/user/signup
+
+#### Admin
+1. https://sterling-premier-league.herokuapp.com/api/v1/admin/login
+2. https://sterling-premier-league.herokuapp.com/api/v1/admin/signup
+
+
