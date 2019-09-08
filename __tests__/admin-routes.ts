@@ -1,12 +1,14 @@
 import app from '../src/app';
 import request from 'supertest';
 import { connectToDB, disconnectFromDB } from '../test-setup/test-connection';
+import { closeInstance } from '../src/app';
 describe('admin route test', () => {
   beforeAll(async () => {
     await connectToDB();
   });
   afterAll(async () => {
     await disconnectFromDB();
+    closeInstance();
   });
   it('should sign up admin and return admin details', async () => {
     const { body, status } = await request(app)

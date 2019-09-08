@@ -1,5 +1,6 @@
 import app from '../src/app';
 import request from 'supertest';
+import { closeInstance } from '../src/app';
 import { connectToDB, disconnectFromDB } from '../test-setup/test-connection';
 let token: string;
 let teamId: string;
@@ -20,6 +21,7 @@ describe('test for team routes', () => {
   });
   afterAll(async () => {
     await disconnectFromDB();
+    closeInstance();
   });
   it('should create a team and return team details', async () => {
     const { body, status } = await request(app)

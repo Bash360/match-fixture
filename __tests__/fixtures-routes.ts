@@ -1,6 +1,7 @@
 import app from '../src/app';
 import request from 'supertest';
 import { connectToDB, disconnectFromDB } from '../test-setup/test-connection';
+import { closeInstance } from '../src/app';
 let token: string;
 let homeTeamName: string;
 let awayTeamName: string;
@@ -54,6 +55,7 @@ describe('test for fixture route', () => {
   });
   afterAll(async () => {
     await disconnectFromDB();
+    closeInstance();
   });
   it('should return fixture details', async () => {
     const { body, status } = await request(app)
