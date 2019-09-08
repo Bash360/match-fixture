@@ -4,7 +4,7 @@ import uuid from 'uuid/v4';
 import jwt from 'jsonwebtoken';
 require('dotenv/config');
 import uniqueValidate from 'mongoose-unique-validator';
-let secret: string;
+let secret: string = `${process.env.SECRET}`;
 let UserSchema = new Schema(
   {
     id: String,
@@ -34,12 +34,6 @@ UserSchema.pre('save', async function() {
     this.id = uuid();
   }
 });
-if (process.env.SECRET) {
-  secret = process.env.SECRET;
-} else {
-  console.log('environment variable secret not set');
-  process.exit(1);
-}
 UserSchema.methods.generateToken = function(): string {
   const token: string = jwt.sign(
     { isAdmin: this.isAdmin, id: this.id },
