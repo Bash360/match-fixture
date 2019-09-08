@@ -19,6 +19,6 @@ Can
 [https://sterling-premier-league.herokuapp.com](https://sterling-premier-league.herokuapp.com)
 
 ## END POINT
-[https://sterling-premier-league.herokuapp.com/api/v1/{{routes}}](https://sterling-premier-league.herokuapp.com/api/v1/{{routes}})
+https://sterling-premier-league.herokuapp.com/api/v1/{{routes}}
 Visit [Documentation ](https://documenter.getpostman.com/view/7290073/SVmpW23a)
 
