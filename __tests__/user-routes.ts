@@ -1,5 +1,6 @@
 import app from '../src/app';
 import request from 'supertest';
+import { closeInstance } from '../src/app';
 import { connectToDB, disconnectFromDB } from '../test-setup/test-connection';
 describe('test for user route', () => {
   beforeAll(async () => {
@@ -7,6 +8,7 @@ describe('test for user route', () => {
   });
   afterAll(async () => {
     await disconnectFromDB();
+    closeInstance();
   });
   it('should return a status code of 200 and user details', async () => {
     const { body, status } = await request(app)

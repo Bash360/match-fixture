@@ -66,5 +66,8 @@ app.use(function(err: any, req: express.Request, res: express.Response) {
   res.status(err.status || 500);
   res.json(err.message);
 });
+export function closeInstance() {
+  redisClient.quit();
+}
 
 export default app;
