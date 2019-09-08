@@ -20,13 +20,12 @@ async function createUser(
   gender: string,
   password: string,
 ) {
-  const hash: string = await bcrypt.hash(password, 10);
   const user = new User({
     firstName,
     lastName,
     email,
     gender,
-    password: hash,
+    password,
   });
   const result = await user.save();
   const token: string = user.generateToken();
@@ -49,14 +48,13 @@ async function createAdmin(
   gender: string,
   password: string,
 ) {
-  const hash: string = await bcrypt.hash(password, 10);
   const user = new User({
     firstName,
     lastName,
     email,
     gender,
     isAdmin: true,
-    password: hash,
+    password,
   });
   const result = await user.save();
   const token: string = user.generateToken();
