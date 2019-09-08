@@ -30,7 +30,7 @@ async function seedFixture(teams: Array<any>) {
       awayTeamName: awayTeam,
       referee: 'mark bashir',
       matchDate: '12-9-2020',
-      url: 'https://sterling-premier-league.herokuapp.com/fixture/',
+      fixtureURL: 'https://sterling-premier-league.herokuapp.com/fixture/',
       awayTeamID,
       homeTeamID,
       stadium,
