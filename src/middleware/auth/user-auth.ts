@@ -27,9 +27,13 @@ function userAuth(req: any, res: express.Response, next: express.NextFunction) {
   }
 }
 function limitAPI(req: any, res: express.Response, next: express.NextFunction) {
-  const limit = req.session.hasOwnProperty('limit') ? req.session.limit : 0;
-  if (limit >= 5) return res.status(429).json({ message: 'Too Many Requests' });
-
+  const limit = req.session.hasOwnProperty('limit')
+    ? (req.session.limit += 1)
+    : 0;
+  if (limit >= 5)
+    return res.status(429).json({
+      message: 'Too Many Requests you have exceeded the limit for API call',
+    });
   return next();
 }
 export { userAuth, limitAPI };

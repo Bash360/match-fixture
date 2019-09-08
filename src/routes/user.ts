@@ -37,6 +37,7 @@ userRouter.post(
         : null;
       if (req.sessionID && email === userEmail) {
         const userDetails = req.session.userDetails;
+        req.session.limit = 0;
         return res
           .header('authorization', userDetails.token)
           .status(200)
@@ -46,7 +47,7 @@ userRouter.post(
       const userDetails = await loginUser(email, password);
       if (req.sessionID) {
         req.session.userDetails = userDetails;
-        req.session.limit = 1;
+        req.session.limit = 0;
       }
 
       return res

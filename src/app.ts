@@ -10,6 +10,7 @@ import userRouter from './routes/user';
 import adminRouter from './routes/admin';
 import teamRouter from './routes/team';
 import fixtureRouter from './routes/fixture';
+import uniqueRouter from './routes/uniqueRoute';
 require('dotenv').config();
 
 const RedisStore = connectRedis(session);
@@ -46,6 +47,7 @@ app.use('/api/v1', userRouter);
 app.use('/api/v1', adminRouter);
 app.use('/api/v1', teamRouter);
 app.use('/api/v1', fixtureRouter);
+app.use('/fixture', uniqueRouter);
 
 // catch 404 and forward to error handler
 app.use(function(

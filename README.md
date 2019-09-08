@@ -15,3 +15,10 @@ Can
   - robustly search fixtures/teams
 - Only the search API should be availble to the public.
 [Documentation ](https://documenter.getpostman.com/view/7290073/SVmpW23a)
+## Base URL
+[https://sterling-premier-league.herokuapp.com](https://sterling-premier-league.herokuapp.com)
+
+## END POINT
+https://sterling-premier-league.herokuapp.com/api/v1/{{routes}}
+Visit [Documentation ](https://documenter.getpostman.com/view/7290073/SVmpW23a)
+

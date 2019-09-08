@@ -1,6 +1,6 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 require('dotenv').config();
-let connection = `${process.env.MONGO_DEV}`;
+let connection: string = `${process.env.MONGO_PROD}`;
 
 async function connectToDB() {
   await mongoose
@@ -10,13 +10,12 @@ async function connectToDB() {
       useFindAndModify: false,
     })
     .then(() => console.log('connection successful'))
-    .catch(err => {
-      console.error(err.message);
+    .catch((err: object) => {
+      console.error(err);
       process.exit(1);
     });
 }
 async function disconnectFromDB() {
-  await mongoose.connection.db.dropDatabase();
   mongoose.connection.close();
   console.log('connection closed');
 }
