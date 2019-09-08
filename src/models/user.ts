@@ -5,11 +5,12 @@ import jwt from 'jsonwebtoken';
 require('dotenv/config');
 import uniqueValidate from 'mongoose-unique-validator';
 let secret: string = `${process.env.SECRET}`;
+import toLower from './to-lower';
 let UserSchema = new Schema(
   {
     id: String,
-    firstName: { type: String, required: true, trim: true, lowercase: true },
-    lastName: { type: String, required: true, trim: true, lowercase: true },
+    firstName: { type: String, required: true, trim: true, set: toLower },
+    lastName: { type: String, required: true, trim: true, set: toLower },
     email: {
       type: String,
       required: true,

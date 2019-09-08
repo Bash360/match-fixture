@@ -2,22 +2,29 @@ import { Schema, model } from 'mongoose';
 import Iteam from '../typings/team';
 import uuid from 'uuid/v4';
 import uniqueValidate from 'mongoose-unique-validator';
+import toLower from './to-lower';
 const teamSchema = new Schema(
   {
     id: String,
-    name: { type: String, required: true, unique: true, index: true },
-    teamCode: { type: String, required: true, trim: true, lowercase: true },
-    logo: { type: String, required: true, trim: true, lowercase: true },
-    country: { type: String, required: true, trim: true, lowercase: true },
-    headCoach: { type: String, required: true, trim: true, lowercase: true },
-    city: { type: String, required: true, trim: true, lowercase: true },
+    name: {
+      type: String,
+      required: true,
+      unique: true,
+      index: true,
+      set: toLower,
+    },
+    teamCode: { type: String, required: true, trim: true, set: toLower },
+    logo: { type: String, required: true, trim: true, set: toLower },
+    country: { type: String, required: true, trim: true, set: toLower },
+    headCoach: { type: String, required: true, trim: true, set: toLower },
+    city: { type: String, required: true, trim: true, set: toLower },
     founded: { type: Date, required: true },
-    stadiumName: { type: String, required: true, trim: true, lowercase: true },
+    stadiumName: { type: String, required: true, trim: true, set: toLower },
     stadiumAddress: {
       type: String,
       required: true,
       trim: true,
-      lowercase: true,
+      set: toLower,
     },
     stadiumCapacity: { type: Number, required: true },
     archived: { type: Boolean, default: false },
