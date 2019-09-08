@@ -100,7 +100,6 @@ describe('test for fixture route', () => {
     expect(status).toBe(200);
     expect(body.data[0]).toHaveProperty('fixtureURL');
   });
-
   it('should return fixture successfully removed', async () => {
     const { body, status } = await request(app)
       .delete(`/api/v1/fixture/remove/${fixtureId}`)

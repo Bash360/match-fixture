@@ -2,6 +2,7 @@ import { Schema, model } from 'mongoose';
 import Iuser from '../typings/user';
 import uuid from 'uuid/v4';
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 require('dotenv/config');
 import uniqueValidate from 'mongoose-unique-validator';
 let secret: string = `${process.env.SECRET}`;
@@ -30,9 +31,10 @@ let UserSchema = new Schema(
   },
   { timestamps: true, id: false },
 );
-UserSchema.pre('save', async function() {
+UserSchema.pre('save', async function(this: any) {
   if (this.isNew) {
     this.id = uuid();
+    this.password = await bcrypt.hash(this.password, 10);
   }
 });
 UserSchema.methods.generateToken = function(): string {
