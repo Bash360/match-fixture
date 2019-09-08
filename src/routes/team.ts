@@ -53,7 +53,7 @@ teamRouter.post(
   },
 );
 teamRouter.get(
-  '/team?',
+  '/team/search?',
   validateSearch,
   async (req: express.Request, res: express.Response) => {
     try {

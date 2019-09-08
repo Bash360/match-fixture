@@ -93,7 +93,7 @@ describe('test for fixture route', () => {
   });
   it('should should return fixture details', async () => {
     const { body, status } = await request(app).get(
-      `/api/v1/fixture?name=${awayTeamName}`,
+      `/api/v1/fixture/search?name=${awayTeamName}`,
     );
     expect(status).toBe(200);
     expect(body.data[0]).toHaveProperty('fixtureURL');
