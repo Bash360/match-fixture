@@ -2,7 +2,7 @@ import Team from '../models/team';
 import Fixture from '../models/fixtures';
 import teams from './teams';
 import { connectToDB, disconnectFromDB } from './seed-setup/seed-connection';
-async function seed() {
+export default async function seed() {
   await connectToDB();
   const teams = await seedTeam();
   await seedFixture(teams);
@@ -39,6 +39,7 @@ async function seedFixture(teams: Array<any>) {
   }
 }
 
-seed()
-  .then(data => console.log(data))
-  .catch(error => console.log(error));
+// seed()
+//   .then(data => console.log(data))
+//   .catch(error => console.log(error));
+//uncomment to seed
