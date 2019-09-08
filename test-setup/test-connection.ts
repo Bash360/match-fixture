@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 require('dotenv').config();
-let connection = `${process.env.MONGO_TEST}`;
+let connection = `${process.env.MONGO_DEV}`;
 
 async function connectToDB() {
   await mongoose
