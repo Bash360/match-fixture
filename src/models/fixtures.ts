@@ -1,10 +1,16 @@
 import { Schema, model } from 'mongoose';
 import Ifixtures from '../typings/fixtures';
 import uuid from 'uuid/v4';
+import toLower from './to-lower';
 const fixtureSchema = new Schema(
   {
     id: String,
-    leagueName: { type: String, default: 'English premier league', trim: true },
+    leagueName: {
+      type: String,
+      default: 'English premier league',
+      trim: true,
+      set: toLower,
+    },
     homeTeamID: {
       type: Schema.Types.ObjectId,
       ref: 'team',
@@ -14,15 +20,15 @@ const fixtureSchema = new Schema(
       type: String,
       required: true,
       trim: true,
-      lowercase: true,
+      set: toLower,
       index: true,
     },
     awayTeamName: {
       type: String,
       required: true,
       trim: true,
-      lowercase: true,
       index: true,
+      set: toLower,
     },
     awayTeamID: {
       type: Schema.Types.ObjectId,
@@ -31,19 +37,19 @@ const fixtureSchema = new Schema(
     },
     goalsHomeTeam: { type: Number, default: null },
     goalsAwayTeam: { type: Number, default: null },
-    stadium: { type: String, required: true, trim: true, lowercase: true },
+    stadium: { type: String, required: true, trim: true, set: toLower },
     goals: { type: Number, default: null },
-    referee: { type: String, required: true, trim: true, lowercase: true },
+    referee: { type: String, required: true, trim: true, set: toLower },
     status: {
       type: String,
       enum: ['pending', 'cancelled', 'ongoing', 'completed'],
       default: 'pending',
       trim: true,
-      lowercase: true,
+      set: toLower,
     },
     matchDate: { type: Date, required: true, min: Date.now() },
     archived: { type: Boolean, required: false, default: false },
-    fixtureURL: { type: String, lowercase: true },
+    fixtureURL: { type: String, set: toLower },
   },
   { timestamps: true, id: false },
 );

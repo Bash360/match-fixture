@@ -1,12 +1,29 @@
 import Team from '../models/team';
 import Fixture from '../models/fixtures';
 import teams from './teams';
+import admins from './admin';
+import users from './users/';
+import User from '../models/user';
 import { connectToDB, disconnectFromDB } from './seed-setup/seed-connection';
 export default async function seed() {
   await connectToDB();
+  await seedUser();
+  await seedAdmin();
   const teams = await seedTeam();
   await seedFixture(teams);
   await disconnectFromDB();
+}
+async function seedUser() {
+  for (let user of users) {
+    const userDoc = new User(user);
+    await userDoc.save();
+  }
+}
+async function seedAdmin() {
+  for (let admin of admins) {
+    const adminDoc = new User(admin);
+    await adminDoc.save();
+  }
 }
 async function seedTeam() {
   let savedTeams = [];
